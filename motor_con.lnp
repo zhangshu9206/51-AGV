@@ -1,0 +1,10 @@
+"main.obj",
+"motor.obj",
+"timer.obj",
+"uart.obj",
+"SelfTest.obj",
+".\lib\STEER.LIB",
+".\lib\IR.LIB",
+".\lib\MEM.LIB" 
+TO "motor_con" 
+RAMSIZE(256) 
