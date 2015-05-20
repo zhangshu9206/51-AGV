@@ -72,7 +72,10 @@ void Communication_Decode(void)
 				MOTOR_GO_BACK;		
 				UART_send("FF000200FF",strlen("FF000200FF"));
 				return;
-			case 0x03:MOTOR_GO_LEFT;    return;
+			case 0x03:
+				MOTOR_GO_LEFT;    
+				//UART_send("FF000200FF",strlen("FF000200FF"));
+				return;
 		    case 0x04:MOTOR_GO_RIGHT;   return;
 			case 0x00:MOTOR_GO_STOP;    return;
 			default: return;

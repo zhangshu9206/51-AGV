@@ -2,6 +2,7 @@
 "motor.obj",
 "timer.obj",
 "uart.obj",
+"Soft_uart.obj",
 "SelfTest.obj",
 ".\lib\STEER.LIB",
 ".\lib\IR.LIB",

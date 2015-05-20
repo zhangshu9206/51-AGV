@@ -1,10 +1,9 @@
-C51 COMPILER V9.00   MOTOR                                                                 05/17/2015 22:46:10 PAGE 1   
+C51 COMPILER V9.00   MOTOR                                                                 05/20/2015 22:39:18 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MOTOR
 OBJECT MODULE PLACED IN motor.obj
-COMPILER INVOKED BY: g:\Keil\C51\BIN\C51.EXE Source\motor.c BROWSE INCDIR(..\µç»ú¿ØÖÆ) DEBUG OBJECTEXTEND PRINT(.\motor.
-                    -lst) OBJECT(motor.obj)
+COMPILER INVOKED BY: g:\Keil\C51\BIN\C51.EXE Source\motor.c INCDIR(..\µç»ú¿ØÖÆ) PRINT(.\motor.lst) OBJECT(motor.obj)
 
 line level    source
 
@@ -15,223 +14,228 @@ line level    source
    5          By WIFI»úÆ÷ÈËÍø¡¤»úÆ÷ÈË´´Òâ¹¤×÷ÊÒ
    6          */
    7          #include "motor.h"
-   8          #include "uart.h"
-   9          #include "timer.h"
-  10          #include "mem.h"
-  11          uchar Cruising_Flag =0x00;
-  12          uchar  Robots_Run_Status;
-  13          uchar Pre_Cruising_Flag = 0x00;
-  14          
-  15          /**µç»ú³õÊ¼»¯**/
-  16          void Motor_Init(void)
-  17          {
-  18   1              MOTOR_A_EN=1;//A¶Ëµç»úÊ¹ÄÜ
-  19   1              MOTOR_B_EN=1;//B¶Ëµç»úÊ¹ÄÜ
-  20   1              MOTOR_GO_STOP;
-  21   1      }
-  22          //¸úËæÄ£Ê½
+   8          #include "timer.h"
+   9          #include "mem.h"
+  10          uchar Cruising_Flag =0x00;
+  11          uchar  Robots_Run_Status;
+  12          uchar Pre_Cruising_Flag = 0x00;
+  13          
+  14          /**µç»ú³õÊ¼»¯**/
+  15          void Motor_Init(void)
+  16          {
+  17   1              MOTOR_A_EN=1;//A¶Ëµç»úÊ¹ÄÜ
+  18   1              MOTOR_B_EN=1;//B¶Ëµç»úÊ¹ÄÜ
+  19   1              MOTOR_GO_STOP;
+  20   1      }
+  21          //¸úËæÄ£Ê½
+  22          /*
   23          void Follow_Track(void)
   24          {
-  25   1                      switch(Robots_Run_Status)
-  26   1                       {
-  27   2                              case 0x01:MOTOR_GO_RIGHT;     break;    
-  28   2                              case 0x02:MOTOR_GO_LEFT;     break;        
-  29   2                              case 0x03:MOTOR_GO_FORWARD;  break;        
-  30   2                              case 0x04:MOTOR_GO_STOP;  break;        
-  31   2                       }
-  32   1      
-  33   1                      
-  34   1                   if(Input_Detect1 == 1)     //ÖÐ¼ä´«¸ÐÆ÷OK
-  35   1                        {
-  36   2                        
-  37   2                              if((Input_Detect0 == 0)&& (Input_Detect2 == 0)) //Á½±ßÍ¬Ê±Ì½²âµ½ÕÏ°­Îï
-  38   2                              {
-  39   3                              
-  40   3                                       Robots_Run_Status=0x04;//Í£Ö¹ 
-  41   3                              } 
-  42   2                               
-  43   2                              if((Input_Detect0 == 0)&& (Input_Detect2 == 1))//×ó²àÕÏ°­Îï
-  44   2                              {
-  45   3                              
-  46   3                                      Robots_Run_Status=0x01;//ÓÒ×ª 
-  47   3                              }
-  48   2                      
-  49   2                              if((Input_Detect0 == 1)&& (Input_Detect2 == 0))//ÓÒ²àÕÏ°­Îï
-  50   2                              {
-  51   3                                      Robots_Run_Status=0x02;//×ó×ª 
-  52   3                              }
-  53   2                               
-  54   2                              if((Input_Detect0 == 1)&& (Input_Detect2 == 1))//ÎÞÈÎºÎÕÏ°­Îï
-C51 COMPILER V9.00   MOTOR                                                                 05/17/2015 22:46:10 PAGE 2   
+  25                  switch(Robots_Run_Status)
+  26                   {
+  27                      case 0x01:MOTOR_GO_RIGHT;     break;    
+  28                      case 0x02:MOTOR_GO_LEFT;     break;    
+  29                      case 0x03:MOTOR_GO_FORWARD;  break;    
+  30                      case 0x04:MOTOR_GO_STOP;  break;    
+  31                   }
+  32          
+  33                  
+  34                   if(Input_Detect1 == 1) //ÖÐ¼ä´«¸ÐÆ÷OK
+  35                    {
+  36                    
+  37                      if((Input_Detect0 == 0)&& (Input_Detect2 == 0)) //Á½±ßÍ¬Ê±Ì½²âµ½ÕÏ°­Îï
+  38                      {
+  39                      
+  40                           Robots_Run_Status=0x04;//Í£Ö¹ 
+  41                      } 
+  42                       
+  43                      if((Input_Detect0 == 0)&& (Input_Detect2 == 1))//×ó²àÕÏ°­Îï
+  44                      {
+  45                      
+  46                          Robots_Run_Status=0x01;//ÓÒ×ª 
+  47                      }
+  48                  
+  49                      if((Input_Detect0 == 1)&& (Input_Detect2 == 0))//ÓÒ²àÕÏ°­Îï
+  50                      {
+  51                          Robots_Run_Status=0x02;//×ó×ª 
+  52                      }
+  53                       
+  54                      if((Input_Detect0 == 1)&& (Input_Detect2 == 1))//ÎÞÈÎºÎÕÏ°­Îï
+  55                      {
+C51 COMPILER V9.00   MOTOR                                                                 05/20/2015 22:39:18 PAGE 2   
 
-  55   2                              {
-  56   3                                      Robots_Run_Status=0x03;//Ö±ÐÐ 
-  57   3                              }
-  58   2                        }
-  59   1                        else
-  60   1                        {
-  61   2                                 Robots_Run_Status=0x04;//¾àÀë½üÍ£Ö¹
-  62   2                        }
-  63   1      
-  64   1      }
-  65          //Ñ²ÏßÄ£Ê½
-  66          void FollowLine(void)
-  67          {
-  68   1                      switch(Robots_Run_Status)
-  69   1                       {
-  70   2                              case 0x01:MOTOR_GO_RIGHT;     break;    
-  71   2                              case 0x02:MOTOR_GO_LEFT;     break;        
-  72   2                              case 0x03:MOTOR_GO_FORWARD;  break;        
-  73   2                              case 0x04:MOTOR_GO_STOP;  break;        
-  74   2                       }
-  75   1      
-  76   1                              if((Input_Detect_LEFT == 0)&& (Input_Detect_RIGHT == 0))//Á½±ßÍ¬Ê±Ì½²âµ½ÕÏ°­Îï
-  77   1                              {
-  78   2                              
-  79   2                                       Robots_Run_Status=0x03;//Ö±ÐÐ 
-  80   2                              } 
-  81   1                               
-  82   1                              if((Input_Detect_LEFT == 0)&& (Input_Detect_RIGHT == 1))//ÓÒ²àÓöµ½ÕÏ°­  
-  83   1                              {
-  84   2                              
-  85   2                                      Robots_Run_Status=0x02;//×ó×ª 
-  86   2                              }
-  87   1                      
-  88   1                              if((Input_Detect_LEFT == 1)&& (Input_Detect_RIGHT == 0))//×ó²àÓöµ½ÕÏ°­ 
-  89   1                              {
-  90   2                                      Robots_Run_Status=0x01;//ÓÒ×ª 
-  91   2                              }
-  92   1                               
-  93   1                              if((Input_Detect_LEFT == 1)&& (Input_Detect_RIGHT == 1))//×óÓÒ¶¼¼ì²âµ½£¬¾ÍÈçÊÓÆµÖÐµÄÄÇÑùÓöµ½Ò»µÀºáµÄ½º´
+  56                          Robots_Run_Status=0x03;//Ö±ÐÐ 
+  57                      }
+  58                    }
+  59                    else
+  60                    {
+  61                         Robots_Run_Status=0x04;//¾àÀë½üÍ£Ö¹
+  62                    }
+  63          
+  64          }
+  65          */
+  66          //Ñ²ÏßÄ£Ê½
+  67          void FollowLine(void)
+  68          {
+  69   1                      switch(Robots_Run_Status)
+  70   1                       {
+  71   2                              case 0x01:MOTOR_GO_RIGHT;     break;    
+  72   2                              case 0x02:MOTOR_GO_LEFT;     break;        
+  73   2                              case 0x03:MOTOR_GO_FORWARD;  break;        
+  74   2                              case 0x04:MOTOR_GO_STOP;  break;        
+  75   2                       }
+  76   1      
+  77   1                              if((Input_Detect_LEFT == 0)&& (Input_Detect_RIGHT == 0))//Á½±ßÍ¬Ê±Ì½²âµ½ÕÏ°­Îï
+  78   1                              {
+  79   2                              
+  80   2                                       Robots_Run_Status=0x03;//Ö±ÐÐ 
+  81   2                              } 
+  82   1                               
+  83   1                              if((Input_Detect_LEFT == 0)&& (Input_Detect_RIGHT == 1))//ÓÒ²àÓöµ½ÕÏ°­  
+  84   1                              {
+  85   2                              
+  86   2                                      Robots_Run_Status=0x02;//×ó×ª 
+  87   2                              }
+  88   1                      
+  89   1                              if((Input_Detect_LEFT == 1)&& (Input_Detect_RIGHT == 0))//×ó²àÓöµ½ÕÏ°­ 
+  90   1                              {
+  91   2                                      Robots_Run_Status=0x01;//ÓÒ×ª 
+  92   2                              }
+  93   1                               
+  94   1                              if((Input_Detect_LEFT == 1)&& (Input_Detect_RIGHT == 1))//×óÓÒ¶¼¼ì²âµ½£¬¾ÍÈçÊÓÆµÖÐµÄÄÇÑùÓöµ½Ò»µÀºáµÄ½º´
              -ø 
-  94   1                              {
-  95   2                                      Robots_Run_Status=0x04;//Í£Ö¹ 
-  96   2                              }
-  97   1      }
-  98          //±ÜÕÏÄ£Ê½
-  99          void Avoiding(void)
- 100          {
- 101   1                       switch(Robots_Run_Status)
- 102   1                       {
- 103   2                              case 0x01:MOTOR_GO_RIGHT;     break;    
- 104   2                              case 0x02:MOTOR_GO_LEFT;     break;        
- 105   2                              case 0x03:MOTOR_GO_FORWARD;  break;        
- 106   2                              case 0x04:MOTOR_GO_STOP;  break;
- 107   2                              case 0x05:MOTOR_GO_BACK; break;            
- 108   2                       }
- 109   1      
- 110   1                              if((Input_Detect_LEFT == 1) || (Input_Detect_RIGHT == 1) || (Input_Detect1==0))
- 111   1                              {
- 112   2                          
- 113   2                                      Robots_Run_Status=0x04;
- 114   2                              } 
- 115   1                              else //·ñÔòµç»úÖ´ÐÐÇ°½ø¶¯×÷
-C51 COMPILER V9.00   MOTOR                                                                 05/17/2015 22:46:10 PAGE 3   
+  95   1                              {
+  96   2                                      Robots_Run_Status=0x04;//Í£Ö¹ 
+  97   2                              }
+  98   1      }
+  99          //±ÜÕÏÄ£Ê½
+ 100          void Avoiding(void)
+ 101          {
+ 102   1                       switch(Robots_Run_Status)
+ 103   1                       {
+ 104   2                              case 0x01:MOTOR_GO_RIGHT;     break;    
+ 105   2                              case 0x02:MOTOR_GO_LEFT;     break;        
+ 106   2                              case 0x03:MOTOR_GO_FORWARD;  break;        
+ 107   2                              case 0x04:MOTOR_GO_STOP;  break;
+ 108   2                              case 0x05:MOTOR_GO_BACK; break;            
+ 109   2                       }
+ 110   1      
+ 111   1                              if((Input_Detect_LEFT == 1) || (Input_Detect_RIGHT == 1) || (Input_Detect1==0))
+ 112   1                              {
+ 113   2                          
+ 114   2                                      Robots_Run_Status=0x04;
+ 115   2                              } 
+ 116   1                              else //·ñÔòµç»úÖ´ÐÐÇ°½ø¶¯×÷
+C51 COMPILER V9.00   MOTOR                                                                 05/20/2015 22:39:18 PAGE 3   
 
- 116   1                              {
- 117   2                                        Robots_Run_Status=0x03;
- 118   2                              }
- 119   1      }
- 120          //·¢ËÍ³¬Éù²¨
- 121          void Send_wave(void)
- 122          {
- 123   1          uint16 i;
- 124   1      
- 125   1              Trig = 1;
- 126   1              for(i=0;i<150;i++);
- 127   1              Trig = 0;
- 128   1      }
- 129          //»ñµÃ¾àÀëÖµ
- 130          uchar Get_Distance(void)
- 131          {
- 132   1          uint32 Distance = 0;
- 133   1      
- 134   1          Send_wave();
- 135   1          TH1 = 0;
- 136   1          TL1 = 0;
- 137   1              while(TH1<250 && Echo!= 1);       
- 138   1              if(TH1 <= 250)  //²â¾à·¶Î§<0.5M
- 139   1              {
- 140   2                 TH1 = 0;
- 141   2                 TL1 = 0;
- 142   2                 while(Echo == 1);
- 143   2                 Distance = TH1;
- 144   2                 Distance = Distance*256;
- 145   2                 Distance = Distance + TL1;
- 146   2                 Distance = Distance * 17; 
- 147   2                 Distance = Distance / 22118; 
- 148   2                 return (uchar)(Distance&0xFF);
- 149   2              }
- 150   1      }
- 151          //Í¨¹ýÀ×´ï±ÜÕÏ
- 152          void AvoidByRadar(void)
- 153          {
- 154   1         if(Get_Distance()<0x0A)//Èç¹ûÀ×´ï»Ø²¨Êý¾ÝÐ¡ÓÚ10ÀåÃ×´¥·¢
- 155   1              {
- 156   2                       MOTOR_GO_STOP;
- 157   2              }
- 158   1              else
- 159   1              {
- 160   2                MOTOR_GO_FORWARD;
- 161   2              }
- 162   1      
- 163   1      }
- 164          void Send_Distance(void)
- 165          {
- 166   1                 UART_send_byte(0xFF);
- 167   1                 UART_send_byte(0x03);
- 168   1                 UART_send_byte(0x00);
- 169   1                 UART_send_byte(Get_Distance());
- 170   1                 UART_send_byte(0xFF);
- 171   1                 Delay_Ms(1000);   
- 172   1      }
- 173          //Ä£Ê½Ö´ÐÐ×Óº¯Êý£¬¸ù¾Ý±êÖ¾Î»½øÐÐÅÐ¶Ï
- 174          void Cruising_Mod(void)
- 175          {
- 176   1             
- 177   1               if(Pre_Cruising_Flag != Cruising_Flag)
-C51 COMPILER V9.00   MOTOR                                                                 05/17/2015 22:46:10 PAGE 4   
+ 117   1                              {
+ 118   2                                        Robots_Run_Status=0x03;
+ 119   2                              }
+ 120   1      }
+ 121          //·¢ËÍ³¬Éù²¨
+ 122          void Send_wave(void)
+ 123          {
+ 124   1          uint16 i;
+ 125   1      
+ 126   1              Trig = 1;
+ 127   1              for(i=0;i<150;i++);
+ 128   1              Trig = 0;
+ 129   1      }
+ 130          //»ñµÃ¾àÀëÖµ
+ 131          uchar Get_Distance(void)
+ 132          {
+ 133   1          uint32 Distance = 0;
+ 134   1      
+ 135   1          Send_wave();
+ 136   1          TH1 = 0;
+ 137   1          TL1 = 0;
+ 138   1              while(TH1<250 && Echo!= 1);       
+ 139   1              if(TH1 <= 250)  //²â¾à·¶Î§<0.5M
+ 140   1              {
+ 141   2                 TH1 = 0;
+ 142   2                 TL1 = 0;
+ 143   2                 while(Echo == 1);
+ 144   2                 Distance = TH1;
+ 145   2                 Distance = Distance*256;
+ 146   2                 Distance = Distance + TL1;
+ 147   2                 Distance = Distance * 17; 
+ 148   2                 Distance = Distance / 22118; 
+ 149   2                 return (uchar)(Distance&0xFF);
+ 150   2              }
+ 151   1              return (uchar)(Distance&0xFF);
+ 152   1      }
+ 153          //Í¨¹ýÀ×´ï±ÜÕÏ
+ 154          void AvoidByRadar(void)
+ 155          {
+ 156   1          Send_Distance();
+ 157   1          if(Get_Distance()<0x0A)//Èç¹ûÀ×´ï»Ø²¨Êý¾ÝÐ¡ÓÚ10ÀåÃ×´¥·¢
+ 158   1          {
+ 159   2              MOTOR_GO_STOP;
+ 160   2          }
+ 161   1          else
+ 162   1          {
+ 163   2              MOTOR_GO_FORWARD;
+ 164   2          }
+ 165   1      
+ 166   1      }
+ 167          void Send_Distance(void)
+ 168          {
+ 169   1                 UART_send_byte(0xFF);
+ 170   1                 UART_send_byte(0x03);
+ 171   1                 UART_send_byte(0x00);
+ 172   1                 UART_send_byte(Get_Distance());
+ 173   1                 UART_send_byte(0xFF);
+ 174   1                 Delay_Ms(1000);   
+ 175   1      }
+ 176          //Ä£Ê½Ö´ÐÐ×Óº¯Êý£¬¸ù¾Ý±êÖ¾Î»½øÐÐÅÐ¶Ï
+ 177          void Cruising_Mod(void)
+ 178          {
+C51 COMPILER V9.00   MOTOR                                                                 05/20/2015 22:39:18 PAGE 4   
 
- 178   1               {
- 179   2                   if(Pre_Cruising_Flag != 0)
- 180   2                       {
- 181   3                           MOTOR_GO_STOP; 
- 182   3                       }
- 183   2      
- 184   2               Pre_Cruising_Flag =  Cruising_Flag;
- 185   2               }      
- 186   1      
- 187   1              switch(Cruising_Flag)
- 188   1              {
- 189   2                 case 0x01:Follow_Track(); break;//¸úËæÄ£Ê½
- 190   2                 case 0x02:FollowLine(); break;//Ñ²ÏßÄ£Ê½
- 191   2                 case 0x03:Avoiding(); break;//±ÜÕÏÄ£Ê½
- 192   2                 case 0x04:AvoidByRadar();break;//³¬Éù²¨±ÚÕÏÄ£Ê½
- 193   2                 default:break;
- 194   2              }        
- 195   1      }
- 196          
- 197          
- 198          void Delay_ForBarrier(uint32 t)
- 199          {  
- 200   1          uint16 i;
- 201   1              while(t--)
- 202   1              {
- 203   2                 for(i=0;i<1050;i++);
- 204   2              }
- 205   1      }
- 206          
- 207          
- 208          
+ 179   1             
+ 180   1               if(Pre_Cruising_Flag != Cruising_Flag)
+ 181   1               {
+ 182   2                   if(Pre_Cruising_Flag != 0)
+ 183   2                       {
+ 184   3                           MOTOR_GO_STOP; 
+ 185   3                       }
+ 186   2      
+ 187   2               Pre_Cruising_Flag =  Cruising_Flag;
+ 188   2               }      
+ 189   1      
+ 190   1              switch(Cruising_Flag)
+ 191   1              {
+ 192   2                 //case 0x01:Follow_Track(); break;//¸úËæÄ£Ê½
+ 193   2                 case 0x02:FollowLine(); break;//Ñ²ÏßÄ£Ê½
+ 194   2                 case 0x03:Avoiding(); break;//±ÜÕÏÄ£Ê½
+ 195   2                 case 0x04:AvoidByRadar();break;//³¬Éù²¨±ÚÕÏÄ£Ê½
+ 196   2                 default:break;
+ 197   2              }        
+ 198   1      }
+ 199          
+ 200          
+ 201          void Delay_ForBarrier(uint32 t)
+ 202          {  
+ 203   1          uint16 i;
+ 204   1              while(t--)
+ 205   1              {
+ 206   2                 for(i=0;i<1050;i++);
+ 207   2              }
+ 208   1      }
  209          
- 210          
- 211          
- 212          
-*** WARNING C291 IN LINE 150 OF SOURCE\MOTOR.C: not every exit path returns a value
+ 210          //void rs_UART_send(uint8 * rs_Buffer, uint16 rs_Length)
+ 211          //{
+ 212          //    UART_send(rs_Buffer, rs_Length);
+ 213          //
+ 214          //}
+ 215          
+ 216          
+ 217          
+ 218          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    713    ----
+   CODE SIZE        =    590    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
@@ -241,4 +245,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

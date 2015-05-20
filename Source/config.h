@@ -53,16 +53,23 @@ sbit LED3=P2^6;
 sbit LED2=P2^5;
 sbit LED1=P2^4;
 
+/* Èí´®¿Ú¹Ü½ÅÅäÖÃ */
+sbit TxD1 = P2^0;
+sbit RxD1 = P2^1;
 
-/* ¸úËæ¹Ü½ÅÅäÖÃ */
+/* ¸úËæ¹Ü½ÅÅäÖÃ 
 sbit Input_Detect0=P3^7;	  //ÓÒ²àÌ½Í·
 sbit Input_Detect1=P3^3;	 //¾àÀëÌ½²â
-sbit Input_Detect2=P2^1;	 //×ó²àÌ½Í·
+sbit Input_Detect2=P2^3;     //×ó²àÌ½Í· P2^1
+*/
 
-/* ±ÜÕÏ¹Ü½ÅÅäÖÃ */
-sbit Input_Detect_LEFT=P2^0;	  //ÓÒ²àÌ½Í·
-sbit Input_Detect_RIGHT=P2^3;	 //×ó²àÌ½Í·
+/* Ñ°¼£¹Ü½ÅÅäÖÃ */
+sbit Input_Detect_LEFT=P3^7;	  //ÓÒ²àÌ½Í· 
+sbit Input_Detect_center=P3^3;    //ÖĞ¼äÌ½Í· 
+sbit Input_Detect_RIGHT=P2^3;     //×ó²àÌ½Í·
 
+/*±ÜÕÏ¹Ü½ÅÅäÖÃ*/
+sbit Input_Detect1=P3^6; 
 
 /* ºìÍâ¹Ü½ÅÅäÖÃ */
 sbit IR_T=P2^2;

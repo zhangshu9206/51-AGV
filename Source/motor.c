@@ -5,7 +5,6 @@ WIFI机器人网·机器人创意工作室版权所有 www.wifi-robots.com
 By WIFI机器人网·机器人创意工作室
 */
 #include "motor.h"
-#include "uart.h"
 #include "timer.h"
 #include "mem.h"
 uchar Cruising_Flag =0x00;
@@ -20,48 +19,50 @@ void Motor_Init(void)
 	MOTOR_GO_STOP;
 }
 //跟随模式
+/*
 void Follow_Track(void)
 {
-  		switch(Robots_Run_Status)
-		 {
-			case 0x01:MOTOR_GO_RIGHT;     break;    
-			case 0x02:MOTOR_GO_LEFT;     break;	   
-			case 0x03:MOTOR_GO_FORWARD;  break;	   
-			case 0x04:MOTOR_GO_STOP;  break;	
-		 }
+        switch(Robots_Run_Status)
+         {
+            case 0x01:MOTOR_GO_RIGHT;     break;    
+            case 0x02:MOTOR_GO_LEFT;     break;	   
+            case 0x03:MOTOR_GO_FORWARD;  break;	   
+            case 0x04:MOTOR_GO_STOP;  break;	
+         }
 
-		
-	     if(Input_Detect1 == 1)	//中间传感器OK
-		  {
-		  
-		   	if((Input_Detect0 == 0)&& (Input_Detect2 == 0)) //两边同时探测到障碍物
-			{
-			
-				 Robots_Run_Status=0x04;//停止 
-			} 
-			 
-			if((Input_Detect0 == 0)&& (Input_Detect2 == 1))//左侧障碍物
-			{
-			
-				Robots_Run_Status=0x01;//右转 
-			}
-		
-			if((Input_Detect0 == 1)&& (Input_Detect2 == 0))//右侧障碍物
-			{
-				Robots_Run_Status=0x02;//左转 
-			}
-			 
-			if((Input_Detect0 == 1)&& (Input_Detect2 == 1))//无任何障碍物
-			{
-				Robots_Run_Status=0x03;//直行 
-			}
-		  }
-		  else
-		  {
-		  	   Robots_Run_Status=0x04;//距离近停止
-		  }
+        
+         if(Input_Detect1 == 1)	//中间传感器OK
+          {
+          
+            if((Input_Detect0 == 0)&& (Input_Detect2 == 0)) //两边同时探测到障碍物
+            {
+            
+                 Robots_Run_Status=0x04;//停止 
+            } 
+             
+            if((Input_Detect0 == 0)&& (Input_Detect2 == 1))//左侧障碍物
+            {
+            
+                Robots_Run_Status=0x01;//右转 
+            }
+        
+            if((Input_Detect0 == 1)&& (Input_Detect2 == 0))//右侧障碍物
+            {
+                Robots_Run_Status=0x02;//左转 
+            }
+             
+            if((Input_Detect0 == 1)&& (Input_Detect2 == 1))//无任何障碍物
+            {
+                Robots_Run_Status=0x03;//直行 
+            }
+          }
+          else
+          {
+               Robots_Run_Status=0x04;//距离近停止
+          }
 
 }
+*/
 //巡线模式
 void FollowLine(void)
 {
@@ -147,18 +148,20 @@ uchar Get_Distance(void)
 	   Distance = Distance / 22118; 
 	   return (uchar)(Distance&0xFF);
 	}
+	return (uchar)(Distance&0xFF);
 }
 //通过雷达避障
 void AvoidByRadar(void)
 {
-   if(Get_Distance()<0x0A)//如果雷达回波数据小于10厘米触发
-	{
-		 MOTOR_GO_STOP;
-	}
-	else
-	{
-	  MOTOR_GO_FORWARD;
-	}
+    Send_Distance();
+    if(Get_Distance()<0x0A)//如果雷达回波数据小于10厘米触发
+    {
+        MOTOR_GO_STOP;
+    }
+    else
+    {
+        MOTOR_GO_FORWARD;
+    }
 
 }
 void Send_Distance(void)
@@ -186,7 +189,7 @@ void Cruising_Mod(void)
 
 	switch(Cruising_Flag)
 	{
-	   case 0x01:Follow_Track(); break;//跟随模式
+	   //case 0x01:Follow_Track(); break;//跟随模式
 	   case 0x02:FollowLine(); break;//巡线模式
 	   case 0x03:Avoiding(); break;//避障模式
 	   case 0x04:AvoidByRadar();break;//超声波壁障模式
@@ -204,8 +207,11 @@ void Delay_ForBarrier(uint32 t)
 	}
 }
 
-
-
+//void rs_UART_send(uint8 * rs_Buffer, uint16 rs_Length)
+//{
+//    UART_send(rs_Buffer, rs_Length);
+//
+//}
 
 
 

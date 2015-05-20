@@ -30,5 +30,6 @@ typedef unsigned char uchar8;
 typedef unsigned char UINT8;
 typedef unsigned char uint8;
 typedef unsigned char BOOL;
-
+typedef unsigned char INT8U;
+typedef unsigned int INT16U; 
 #endif

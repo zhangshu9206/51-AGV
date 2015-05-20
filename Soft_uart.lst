@@ -1,0 +1,265 @@
+C51 COMPILER V9.00   SOFT_UART                                                             05/20/2015 22:39:18 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE SOFT_UART
+OBJECT MODULE PLACED IN Soft_uart.obj
+COMPILER INVOKED BY: g:\Keil\C51\BIN\C51.EXE Source\Soft_uart.c INCDIR(..\电机控制) PRINT(.\Soft_uart.lst) OBJECT(Soft_u
+                    -art.obj)
+
+line level    source
+
+   1          
+   2          #include "Soft_uart.h"
+   3          #include <stdio.h>
+   4          #include <string.h>
+   5          #include "motor.h"
+   6          #include "timer.h"
+   7          #include "steer.h"
+   8          #include "IR.h"
+   9          
+  10          INT8U xdata Rbuf1[BufLong]; //FIFO接收区
+  11          INT8U Rptr1,Rnum1;
+  12          INT8U xdata Tbuf1[BufLong];//FIFO发送区
+  13          INT8U Tptr1,Tnum1;
+  14          signed char TimCnt1A,TimCnt1B; 
+  15          INT8U Mtbuf1,Mrbuf1,TxdCnt1,RxdCnt1;
+  16          //INT8U RxdCnt2,Rnum2,Rptr2,Mrbuf2,Rbuf2[BufLong]; //如果需要两个9600 RxD，则添加这些变量。
+  17          
+  18          INT16U  ReceiveNextByteToRead,SendNextByteToWrite;                     //接收数据读取指针
+  19          bit  Brxd1,Srxd1;               //RxD检测电平
+  20          //INT16U  ReceiveNextByteToRead2,SendNextByteToWrite2;                    //如果需要两个9600 RxD，则添加这些变量。
+  21          //bit  Brxd2,Srxd2;                                                                                               //如果需要两个9600 RxD，则添加这些变量。
+  22          
+  23          static uint8 rs_rec_flag = 0; 
+  24          static uint8 xdata rs_buffer[3]; 
+  25          static uint8 rs_i; 
+  26          
+  27          void Recv(void)
+  28          {
+  29   1       
+  30   1        
+  31   1        if(RxdCnt1>1)      //存数据位8个
+  32   1       
+  33   1        {
+  34   2       
+  35   2          Mrbuf1>>=1;
+  36   2       
+  37   2          if(RxD1==1) Mrbuf1=Mrbuf1|0x80;
+  38   2       
+  39   2        }
+  40   1       
+  41   1        RxdCnt1--;
+  42   1       
+  43   1        if(RxdCnt1==1 /*&& RxD1==1*/) //数据接收完毕，未接收停止位。   RxdCnt1==0时，接收停止位
+  44   1       
+  45   1        { 
+  46   2              Brxd1=Srxd1=1;   //重置接收状态等待下一个起始位。
+  47   2          if(Rnum1<BufLong)           //FIFO队列未满
+  48   2              {
+  49   3                      Rbuf1[Rptr1]=Mrbuf1; //存储到FIFO队列
+  50   3                      if(++Rptr1>BufLong-1) Rptr1=0;
+  51   3                      if(++Rnum1>BufLong) Rnum1=BufLong;      //FIFO队列已满，不再允许数据添加
+  52   3              }
+  53   2      
+  54   2        }
+C51 COMPILER V9.00   SOFT_UART                                                             05/20/2015 22:39:18 PAGE 2   
+
+  55   1       
+  56   1      }
+  57          
+  58          void Send(void)
+  59          {
+  60   1       
+  61   1       if(TxdCnt1!=0)  //字节发送状态机
+  62   1       
+  63   1       {
+  64   2       
+  65   2        if(TxdCnt1==11) TxD1=0;//发起始位0
+  66   2       
+  67   2        else if(TxdCnt1>2) //发数据位
+  68   2       
+  69   2         { Mtbuf1>>=1; TxD1=CY;}
+  70   2       
+  71   2        else  TxD1=1;     //发终止位1
+  72   2       
+  73   2        TxdCnt1--;
+  74   2       
+  75   2       }
+  76   1       
+  77   1       else if(Tnum1>0)  //检测FIFO队列
+  78   1       
+  79   1       {
+  80   2       
+  81   2         Tnum1--;
+  82   2       
+  83   2         Mtbuf1=Tbuf1[Tptr1]; //读取FIFO数据
+  84   2       
+  85   2         if(++Tptr1>=BufLong) Tptr1=0;
+  86   2       
+  87   2         TxdCnt1=11;     //启动发送状态机
+  88   2       
+  89   2       }
+  90   1       
+  91   1      }
+  92          
+  93          #ifdef TIMER_0
+  94          void Timer_0(void) interrupt 1 using 3
+  95          {
+  96   1          /*调用红外与舵机*/
+  97   1          if(IR_EN ==1)
+*** ERROR C202 IN LINE 97 OF SOURCE\SOFT_UART.C: 'IR_EN': undefined identifier
+  98   1          {
+  99   2              Timer_For_IR();
+ 100   2          }
+ 101   1          else
+ 102   1          {
+ 103   2              Steering_Engine_Control();
+ 104   2          }
+ 105   1          
+ 106   1          /*调用软件串口*/
+ 107   1          if(RxdCnt1 == 0)  //接收起始识别
+ 108   1      
+ 109   1          {
+ 110   2              if(RxD1 == 0 && Brxd1 == 0 && Srxd1 == 1)     //第一个数据位间隔取4，保证读取脉冲中间
+ 111   2              {RxdCnt1 = 9; TimCnt1B = 0;}
+ 112   2              Srxd1 = Brxd1; Brxd1 = RxD1;
+ 113   2          }
+ 114   1      
+ 115   1      
+C51 COMPILER V9.00   SOFT_UART                                                             05/20/2015 22:39:18 PAGE 3   
+
+ 116   1          if(++TimCnt1B >= 3 && RxdCnt1 != 0) //数据接收，间隔为3
+ 117   1          {TimCnt1B = 0; Recv();}
+ 118   1      
+ 119   1          if(++TimCnt1A >= 3) //数据发送
+ 120   1          {TimCnt1A = 0; Send();}
+ 121   1      }
+ 122          #endif
+ 123          
+ 124          void soft_rs232_init (void)            //串口初始化  
+ 125          {
+ 126   1        TH0=-BaudT; TL0=-BaudT; TR0=1;
+ 127   1       
+ 128   1        Rptr1=0;Rnum1=0;Tptr1=0;Tnum1=0;
+ 129   1        
+ 130   1        RxdCnt1=TxdCnt1=0;
+ 131   1        
+ 132   1              AUXR   |=   0x00;                  //Set T0x12 = 0, 12分频
+ 133   1          TMOD &= TMOD_AND_WORD;
+ 134   1          TMOD |= TMOD_TIME_MODE2;           //模式2，溢出触发中断后硬件自动将THx重装入TLx 确保定时器精度
+ 135   1          Brxd1=Srxd1=RxD1 = 1;                        //接收脚置成高电平  
+ 136   1          TxD1 = 1;                        //发射脚置成高电平  
+ 137   1              ReceiveNextByteToRead=SendNextByteToWrite=0;    //接收环形缓冲读取/写入指针初始化
+ 138   1          IP_PTx = 1;                        //置中断优先级为高  
+ 139   1              EA=1;                              //开启总中断
+ 140   1          IE_ETx = 1;                        //允许定时器中断 
+ 141   1              IE|=0x82; 
+ 142   1          TCON_ENABLE_TIMER = 1;             //启动定时器  
+ 143   1      }
+ 144          
+ 145          void initiate_soft_uart (void)               //软件串口初始化  
+ 146          {
+ 147   1          soft_rs232_init();                 //串口初始化  
+ 148   1          EA = 1;                            //开中断  
+ 149   1      }
+ 150          
+ 151          
+ 152          //由收转到发时，要先调用 soft_send_enable ()  
+ 153          void rs_send_byte(INT8U SendByte)      //发送一个字节  
+ 154          {
+ 155   1              while ( Tnum1 >= BufLong);             //等待FIFO队列有空
+ 156   1              Tbuf1[SendNextByteToWrite]=SendByte; 
+ 157   1              if(++SendNextByteToWrite>BufLong-1) SendNextByteToWrite=0;
+ 158   1              if(++Tnum1>BufLong) Tnum1=BufLong;      //FIFO队列已满，不再允许数据添加
+ 159   1      }
+ 160          
+ 161          void rs_Communication_Decode(void)
+ 162          {
+ 163   1          if(rs_buffer[0] == '0') 
+ 164   1          {
+ 165   2              switch(rs_buffer[1]) 
+ 166   2              {
+ 167   3                  case '1':
+ 168   3                     MOTOR_GO_FORWARD;
+ 169   3                     //UART_send("FF000100FF", strlen("FF000100FF"));
+ 170   3                     return;
+ 171   3                  case '2':
+ 172   3                     MOTOR_GO_BACK;
+ 173   3                     //UART_send("FF000200FF", strlen("FF000200FF"));
+ 174   3                     return;
+ 175   3                  case '3':
+ 176   3                     MOTOR_GO_LEFT;
+ 177   3                     //UART_send("FF000200FF",strlen("FF000200FF"));
+C51 COMPILER V9.00   SOFT_UART                                                             05/20/2015 22:39:18 PAGE 4   
+
+ 178   3                     return;
+ 179   3                  case '4':
+ 180   3                     MOTOR_GO_RIGHT; 
+ 181   3                     return;
+ 182   3                  case '0':
+ 183   3                     MOTOR_GO_STOP; 
+ 184   3                     return;
+ 185   3                  default:
+ 186   3                     return;
+ 187   3              }
+ 188   2          }
+ 189   1          else
+ 190   1          {
+ 191   2              return;
+ 192   2          }
+ 193   1      }
+ 194          
+ 195          INT8U rs_receive_byte(void)      //接收一个字节  先调用soft_receive_enable()
+ 196          {
+ 197   1           
+ 198   1              INT8U outputByte=0;  
+ 199   1          while(Rnum1==0);                    //等待接收到一个字符
+ 200   1              outputByte=Rbuf1[ReceiveNextByteToRead];
+ 201   1      /*    
+ 202   1          UART_send("outputByte:", strlen("outputByte:"));  
+ 203   1          UART_send(&outputByte, strlen(&outputByte)); 
+ 204   1      */
+ 205   1          
+ 206   1          if(rs_rec_flag == 0) 
+ 207   1          {
+ 208   2              if(outputByte == 'F') 
+ 209   2              { 
+ 210   3                  rs_rec_flag = 1; 
+ 211   3                  rs_i = 0; 
+ 212   3              }
+ 213   2          }
+ 214   1          else
+ 215   1          {
+ 216   2              if(outputByte == 'F') 
+ 217   2              {
+ 218   3                  rs_rec_flag = 0; 
+ 219   3                  if(rs_i == 3) 
+ 220   3                  {
+ 221   4                      rs_Communication_Decode();
+ 222   4                      //UART_init(); //       解决串口死机问题
+ 223   4                  }
+ 224   3                  rs_i = 0; 
+ 225   3              }
+ 226   2              else
+ 227   2              {
+ 228   3                  rs_buffer[rs_i] = outputByte; 
+ 229   3                  rs_i++; 
+ 230   3              }
+ 231   2          }
+ 232   1       
+ 233   1          
+ 234   1              if( ReceiveNextByteToRead<BufLong-1)
+ 235   1              {
+ 236   2                      ReceiveNextByteToRead++;
+ 237   2              }else{
+ 238   2                      ReceiveNextByteToRead=0;
+ 239   2              }
+C51 COMPILER V9.00   SOFT_UART                                                             05/20/2015 22:39:18 PAGE 5   
+
+ 240   1              Rnum1--;                                        //读取完毕，从FIFO队列中腾出一个字符
+ 241   1      
+ 242   1              return outputByte;
+ 243   1      }
+ 244          
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  1 ERROR(S)

@@ -1,0 +1,250 @@
+C51 COMPILER V9.00   STC_SOFT_UART_FULLDUPLEX                                              05/19/2015 18:02:14 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE STC_SOFT_UART_FULLDUPLEX
+OBJECT MODULE PLACED IN STC_Soft_uart_FullDuplex.obj
+COMPILER INVOKED BY: g:\Keil\C51\BIN\C51.EXE Source\STC_Soft_uart_FullDuplex.c BROWSE INCDIR(..\µç»ú¿ØÖÆ) DEBUG OBJECTEX
+                    -TEND PRINT(.\STC_Soft_uart_FullDuplex.lst) OBJECT(STC_Soft_uart_FullDuplex.obj)
+
+line level    source
+
+   1          /*
+   2          °æÈ¨ÉùÃ÷£º
+   3          ÂóÖÜÀÏ´ó(weibo.com/maizhoulaoda)°æÈ¨ËùÓĞ(±¾³ÌĞòÔÚSTC12ÏµÁĞÉÏµ÷ÊÔÍ¨¹ı£¬ÊÕ·¢¶¼Õı³£¡£)
+   4          »ùÓÚÕÔÑ§¾üÏÈÉúÔÚÎ¢¼ÆËã»úĞÅÏ¢ÉÏµÄÎÄÕÂÆôÊ¾£¬ĞŞ¸ÄÒ»Ğ©´íÎó²¢ÍêÉÆÁË¸Ã³ÌĞò£¨ĞŞ¸´bugÀıÈçrecvÖĞ¶ÔÍ£Ö¹Î»µÄ´¦ÀíµÈ£©¡
+             -£
+   5          Äú¿ÉÒÔÈÎÒâĞŞ¸Ä±¾³ÌĞò£¬²¢Ó¦ÓÃÓÚÈÎºÎÏîÄ¿¡£½ûÖ¹ÊÕÈ¡ÈÎºÎÈí¼ş·ÑÓÃ¡£Ê¹ÓÃÊ±Çë±£Áô±¾¶ÎÉùÃ÷±êÃ÷°æÈ¨Çé¿ö¡£
+   6          ÓÃ¶¨Ê±Æ÷ T0 Ä£ÄâÈ«Ë«¹¤´®ĞĞ¿Ú³ÌĞò¡£ÓÉÂóÖÜÀÏ´ó£¬Michael Zhou»ùÓÚÏÖÓĞ°ëË«¹¤STCÈí¼ş´®¿Ú³ÌĞòĞŞ¸Ä
+   7          ×î¸ß²¨ÌØÂÊ(12 clock/3):
+   8              ÊÕ¡¢·¢²¨ÌØÂÊÏàÍ¬¡£
+   9          
+  10          Ê¹ÓÃËµÃ÷:
+  11              1. ±¾³ÌĞòÊ¹ÓÃÒ»¸ö¶¨Ê±Æ÷£¨Ê¹ÓÃ3±¶²¨ÌØÂÊµÄ¶¨Ê±£©ºÍÈÎÒâ 2 ¸ö I/O ¿ÚÄ£ÄâÒ»¸ö´®ĞĞ¿Ú(Èç¹ûMCUÖ÷Æµ¹»¿ì£¬¶®µÃ±à
+             -³É£¬ÍêÈ«¿ÉÒÔĞŞ¸Ä³ÉÄ£Äâ¶à¸ö´®¿Ú)¡£
+  12              2. 1Î»ÆğÊ¼Î»£¬8Î»Êı¾İÎ»£¬1Î»Í£Ö¹Î»¡£·¢Êı¾İÎ»Ê±ÏÈ·¢µÍÎ»¡£
+  13              3. Ö§³ÖÈ«Ë«¹¤Í¨Ñ¶¡£ÊÕ¡¢·¢²¨ÌØÂÊÏàÍ¬¡£
+  14              4. Ó¦°Ñ¶¨Ê±Æ÷ÖĞ¶ÏÓÅÏÈ¼¶ÉèÖÃÎª×î¸ß¼¶¡£
+  15              5. ±¾³ÌĞòÊ¹ÓÃÊÕ£¬·¢Á½¸ö»·ĞĞ»º³åÇø¡£Ê¹ÓÃÕß²»±Ø¹ØĞÄ»º³åÇøµÄ´¦Àí¡£Èç¹û½ÓÊÕ»º³åÂú£¬ÔòÍ£Ö¹½ÓÊÕĞÂµÄRxÊäÈë£¬Ö
+             -±µ½ÓĞÒ»¸ö×Ö½ÚµÄ¿Õ¼ä±»ÌÚ³ö¡£
+  16          **************************************************************************
+  17          ±à³ÌËµÃ÷:
+  18          ----------------
+  19          ¶¨Ê±Æ÷0Ê¹ÓÃ×Ô¶¯ÖØ×°µÄ8Î»¼ÆÊıÆ÷Ä£Ê½£¬±£Ö¤²¨ÌØÂÊ¾«¶È¡£
+  20          ----------------
+  21          
+  22          ·¢ËÍ:
+  23                  µ÷ÓÃ rs_send_byte () Æô¶¯·¢ËÍÒ»¸ö×Ö½ÚµÄ¹ı³Ì¡£
+  24              ·¢ËÍ¿ÚÆ½Ê±Îª¸ßµçÆ½£¬rs_send_byte ()º¯ÊıÊ¹·¢ËÍ¿Ú±äÎªµÍµçÆ½¿ªÊ¼·¢ËÍÆğÊ¼Î»; 
+  25          Í¬Ê±ÉèÖÃºÍÆô¶¯¶¨Ê±Æ÷£¬Îª·¢ËÍÊı¾İÎ»ÔÚÔ¤¶¨µÄÊ±¿Ì²úÉú¶¨Ê±Æ÷ÖĞ¶Ï¡£·¢ËÍÊı¾İÎ»ºÍÍ£Ö¹Î»¶¼ÔÚ¶¨Ê±Æ÷µÄÖĞ¶Ï·şÎñ³ÌĞòÖĞ
+             -½øĞĞ¡£
+  26          ----------------
+  27          ½ÓÊÕ£º
+  28              ¶¨Ê±Æ÷ÒÔ 3 ±¶²¨ÌØÂÊµÄÆµÂÊ²úÉúÖĞ¶Ï¼ì²âRx I/O¹Ü½ÅÊÕµ½µÄÆğÊ¼Î»£¬×¼±¸ÔÚÏÂÒ»¸ö¶¨Ê±Æ÷ÖĞ¶ÏÖĞ½ÓÊÕµÚ 1 ¸öÊı¾İÎ»
+             -¡£
+  29              ÖĞ¶Ï·şÎñ³ÌĞòÖĞ´¦ÀíÒÔÏÂÇé¿ö£º
+  30              1. ÊÕµ½µÄÊÇÆğÊ¼Î»: µ÷Õû¶¨Ê±Æ÷²úÉúÖĞ¶ÏµÄÆµÂÊÓë²¨ÌØÂÊÏàÍ¬¡£
+  31              2. ÊÕµ½µÚ 8 Î»Êı¾İÎ»: ´æ´¢½ÓÊÕµ½µÄ×Ö½Ú¡£
+  32              3. ÊÕµ½µÚ 1--7 Î»Êı¾İÎ»: ´æ´¢µ½ÊÕ¡¢·¢ÒÆÎ»Ôİ´æÆ÷¡£
+  33              4. ÊÕµ½Í£Ö¹Î»: ¼ì²âÏÂÒ»¸öÆğÊ¼Î»¡£ 
+  34              5. ´¦Àí³ö´íµÄÇé¿ö¡£
+  35          **************************************************************************
+  36          
+  37          */
+  38          #include "STC_Soft_uart_FullDuplex.h"
+  39                  
+  40           
+  41          INT8U Rbuf1[BufLong];//FIFO½ÓÊÕÇø
+  42          INT8U Rptr1,Rnum1;
+  43          INT8U Tbuf1[BufLong];//FIFO·¢ËÍÇø
+  44          INT8U Tptr1,Tnum1;
+  45          signed char TimCnt1A,TimCnt1B; 
+  46          INT8U Mtbuf1,Mrbuf1,TxdCnt1,RxdCnt1;
+  47          //INT8U RxdCnt2,Rnum2,Rptr2,Mrbuf2,Rbuf2[BufLong]; //Èç¹ûĞèÒªÁ½¸ö9600 RxD£¬ÔòÌí¼ÓÕâĞ©±äÁ¿¡£
+  48          
+  49          INT16U  ReceiveNextByteToRead,SendNextByteToWrite;                     //½ÓÊÕÊı¾İ¶ÁÈ¡Ö¸Õë
+C51 COMPILER V9.00   STC_SOFT_UART_FULLDUPLEX                                              05/19/2015 18:02:14 PAGE 2   
+
+  50          bit  Brxd1,Srxd1;               //RxD¼ì²âµçÆ½
+  51          //INT16U  ReceiveNextByteToRead2,SendNextByteToWrite2;                    //Èç¹ûĞèÒªÁ½¸ö9600 RxD£¬ÔòÌí¼ÓÕâĞ©±äÁ¿¡£
+  52          //bit  Brxd2,Srxd2;                                                                                               //Èç¹ûĞèÒªÁ½¸ö9600 RxD£¬ÔòÌí¼ÓÕâĞ©±äÁ¿¡£
+  53          
+  54          void Recv(void)
+  55          {
+  56   1       
+  57   1        
+  58   1        if(RxdCnt1>1)      //´æÊı¾İÎ»8¸ö
+  59   1       
+  60   1        {
+  61   2       
+  62   2          Mrbuf1>>=1;
+  63   2       
+  64   2          if(RxD1==1) Mrbuf1=Mrbuf1|0x80;
+  65   2       
+  66   2        }
+  67   1       
+  68   1        RxdCnt1--;
+  69   1       
+  70   1        if(RxdCnt1==1 /*&& RxD1==1*/) //Êı¾İ½ÓÊÕÍê±Ï£¬Î´½ÓÊÕÍ£Ö¹Î»¡£   RxdCnt1==0Ê±£¬½ÓÊÕÍ£Ö¹Î»
+  71   1       
+  72   1        { 
+  73   2              Brxd1=Srxd1=1;   //ÖØÖÃ½ÓÊÕ×´Ì¬µÈ´ıÏÂÒ»¸öÆğÊ¼Î»¡£
+  74   2          if(Rnum1<BufLong)           //FIFO¶ÓÁĞÎ´Âú
+  75   2              {
+  76   3                      Rbuf1[Rptr1]=Mrbuf1; //´æ´¢µ½FIFO¶ÓÁĞ
+  77   3                      if(++Rptr1>BufLong-1) Rptr1=0;
+  78   3                      if(++Rnum1>BufLong) Rnum1=BufLong;      //FIFO¶ÓÁĞÒÑÂú£¬²»ÔÙÔÊĞíÊı¾İÌí¼Ó
+  79   3              }
+  80   2      
+  81   2        }
+  82   1       
+  83   1      }
+  84          
+  85          void Send(void)
+  86          {
+  87   1       
+  88   1       if(TxdCnt1!=0)  //×Ö½Ú·¢ËÍ×´Ì¬»ú
+  89   1       
+  90   1       {
+  91   2       
+  92   2        if(TxdCnt1==11) TxD1=0;//·¢ÆğÊ¼Î»0
+  93   2       
+  94   2        else if(TxdCnt1>2) //·¢Êı¾İÎ»
+  95   2       
+  96   2         { Mtbuf1>>=1; TxD1=CY;}
+  97   2       
+  98   2        else  TxD1=1;     //·¢ÖÕÖ¹Î»1
+  99   2       
+ 100   2        TxdCnt1--;
+ 101   2       
+ 102   2       }
+ 103   1       
+ 104   1       else if(Tnum1>0)  //¼ì²âFIFO¶ÓÁĞ
+ 105   1       
+ 106   1       {
+ 107   2       
+ 108   2         Tnum1--;
+ 109   2       
+ 110   2         Mtbuf1=Tbuf1[Tptr1]; //¶ÁÈ¡FIFOÊı¾İ
+ 111   2       
+C51 COMPILER V9.00   STC_SOFT_UART_FULLDUPLEX                                              05/19/2015 18:02:14 PAGE 3   
+
+ 112   2         if(++Tptr1>=BufLong) Tptr1=0;
+ 113   2       
+ 114   2         TxdCnt1=11;     //Æô¶¯·¢ËÍ×´Ì¬»ú
+ 115   2       
+ 116   2       }
+ 117   1       
+ 118   1      }
+ 119          
+ 120          
+ 121          #ifdef TIMER_0
+ 122              void timer0 (void) interrupt 1 using 3
+ 123              {
+ 124   1                if(RxdCnt1==0 )  //½ÓÊÕÆğÊ¼Ê¶±ğ
+ 125   1               
+ 126   1                {
+ 127   2                      if(RxD1==0 && Brxd1==0 && Srxd1==1) { RxdCnt1=9; TimCnt1B=0;}     //µÚÒ»¸öÊı¾İÎ»¼ä¸ôÈ¡4£¬±£Ö¤¶ÁÈ¡Âö³åÖĞ¼ä
+ 128   2                      Srxd1=Brxd1; Brxd1=RxD1;
+ 129   2                }
+ 130   1               
+ 131   1               
+ 132   1                if(++TimCnt1B>=3 && RxdCnt1!=0) {TimCnt1B=0;  Recv();}//Êı¾İ½ÓÊÕ£¬¼ä¸ôÎª3
+ 133   1               
+ 134   1                if(++TimCnt1A>=3) { TimCnt1A=0; Send();} //Êı¾İ·¢ËÍ
+ 135   1          }
+ 136          #endif
+ 137          
+ 138          
+ 139          
+ 140          void soft_rs232_init (void)            //´®¿Ú³õÊ¼»¯  
+ 141          {
+ 142   1        TH0=-BaudT; TL0=-BaudT; TR0=1;
+ 143   1       
+ 144   1        Rptr1=0;Rnum1=0;Tptr1=0;Tnum1=0;
+ 145   1        
+ 146   1        RxdCnt1=TxdCnt1=0;
+ 147   1        
+ 148   1      
+ 149   1              AUXR   |=   0x00;                  //Set T0x12 = 0, 12·ÖÆµ
+ 150   1      
+ 151   1          TMOD &= TMOD_AND_WORD;
+ 152   1          TMOD |= TMOD_TIME_MODE2;           //Ä£Ê½2£¬Òç³ö´¥·¢ÖĞ¶ÏºóÓ²¼ş×Ô¶¯½«THxÖØ×°ÈëTLx È·±£¶¨Ê±Æ÷¾«¶È
+ 153   1          Brxd1=Srxd1=RxD1 = 1;                        //½ÓÊÕ½ÅÖÃ³É¸ßµçÆ½  
+ 154   1          TxD1 = 1;                        //·¢Éä½ÅÖÃ³É¸ßµçÆ½  
+ 155   1      
+ 156   1              ReceiveNextByteToRead=SendNextByteToWrite=0;    //½ÓÊÕ»·ĞÎ»º³å¶ÁÈ¡/Ğ´ÈëÖ¸Õë³õÊ¼»¯
+ 157   1          IP_PTx = 1;                        //ÖÃÖĞ¶ÏÓÅÏÈ¼¶Îª¸ß  
+ 158   1              EA=1;                              //¿ªÆô×ÜÖĞ¶Ï
+ 159   1          IE_ETx = 1;                        //ÔÊĞí¶¨Ê±Æ÷ÖĞ¶Ï 
+ 160   1              IE|=0x82; 
+ 161   1          TCON_ENABLE_TIMER = 1;             //Æô¶¯¶¨Ê±Æ÷  
+ 162   1      }
+ 163          
+ 164          void initiate_soft_uart (void)               //Èí¼ş´®¿Ú³õÊ¼»¯  
+ 165          {
+ 166   1          soft_rs232_init();                 //´®¿Ú³õÊ¼»¯  
+ 167   1          EA = 1;                            //¿ªÖĞ¶Ï  
+ 168   1      }
+ 169          
+ 170          
+ 171          //ÓÉÊÕ×ªµ½·¢Ê±£¬ÒªÏÈµ÷ÓÃ soft_send_enable ()  
+ 172          void rs_send_byte(INT8U SendByte)      //·¢ËÍÒ»¸ö×Ö½Ú  
+ 173          {
+C51 COMPILER V9.00   STC_SOFT_UART_FULLDUPLEX                                              05/19/2015 18:02:14 PAGE 4   
+
+ 174   1              while ( Tnum1 >= BufLong);             //µÈ´ıFIFO¶ÓÁĞÓĞ¿Õ
+ 175   1              Tbuf1[SendNextByteToWrite]=SendByte; 
+ 176   1              if(++SendNextByteToWrite>BufLong-1) SendNextByteToWrite=0;
+ 177   1              if(++Tnum1>BufLong) Tnum1=BufLong;      //FIFO¶ÓÁĞÒÑÂú£¬²»ÔÙÔÊĞíÊı¾İÌí¼Ó
+ 178   1      }
+ 179          
+ 180          INT8U rs_receive_byte(void)      //½ÓÊÕÒ»¸ö×Ö½Ú  ÏÈµ÷ÓÃsoft_receive_enable()
+ 181          {
+ 182   1              INT8U outputByte=0; 
+ 183   1              
+ 184   1              while(Rnum1==0);                        //µÈ´ı½ÓÊÕµ½Ò»¸ö×Ö·û
+ 185   1              
+ 186   1              outputByte=Rbuf1[ReceiveNextByteToRead];
+ 187   1              if( ReceiveNextByteToRead<BufLong-1)
+ 188   1              {
+ 189   2                      ReceiveNextByteToRead++;
+ 190   2              }else{
+ 191   2                      ReceiveNextByteToRead=0;
+ 192   2              }
+ 193   1              Rnum1--;                                        //¶ÁÈ¡Íê±Ï£¬´ÓFIFO¶ÓÁĞÖĞÌÚ³öÒ»¸ö×Ö·û
+ 194   1      
+ 195   1              return outputByte;
+ 196   1              
+ 197   1      }
+ 198          
+ 199          /* ²âÊÔÓÃmainº¯ÊıÀı×Ó*/
+ 200          void main (void)
+ 201          {
+ 202   1      //µ±ÊÕµ½ 1¸ö×Ö½Úºó£¬Á¢¿Ì½«ÊÕµ½µÄÊı¾İ»Ø·¢ËÍ¸ø PC »ú£¬È»ºó¼ÌĞøµÈ´ıÏÂÒ»¸öÊı¾İ×Ö½Ú¡£
+ 203   1        
+ 204   1          INT8U ReceivedData;
+ 205   1          initiate_soft_uart();                    //³õÊ¼»¯  
+ 206   1      
+ 207   1          while(1)
+ 208   1          {
+ 209   2              ReceivedData=rs_receive_byte();
+ 210   2              rs_send_byte(ReceivedData);
+ 211   2      
+ 212   2          }
+ 213   1      }
+ 214          
+ 215          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    373    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     78    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
