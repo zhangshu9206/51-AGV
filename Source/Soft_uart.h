@@ -126,8 +126,7 @@ sfr16	DPTR = 0x82;
 
 #define BaudT (Fosc/Baud/3/12)					//Fosc=22.1184M, Baud=9600, BaudT=192/3=64
  
-#define BufLong 32    //FIFO长度
- 
+#define BufLong 32    //FIFO长度 
 
 void Recv(void);
 void Send(void);

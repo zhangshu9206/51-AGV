@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   TIMER                                                                 05/20/2015 22:39:18 PAGE 1   
+C51 COMPILER V9.00   TIMER                                                                 05/21/2015 14:38:30 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE TIMER
@@ -19,13 +19,13 @@ line level    source
   10          #include "IR.h"
   11          #include "Soft_uart.h"
   12          
-  13          extern uint8 rec_flag;
-  14          extern uint8 rec_flag;
-  15          extern uint16 Sampling_cnt;
-  16          extern bit IR_38K_En;
-  17          extern bit IR_R_T; 
-  18          extern bit IR_EN;
-  19          extern void Steering_Engine_Control(void);
+  13          //uint8 rec_flag;
+  14          //uint8 rec_flag;
+  15          //uint16 Sampling_cnt;
+  16          //bit IR_38K_En;
+  17          //bit IR_R_T;
+  18          //bit IR_EN;
+  19          void Steering_Engine_Control(void);
   20          uint16 se_timer[8]={SE1_Deg,SE2_Deg,SE3_Deg,SE4_Deg,SE5_Deg,SE6_Deg,SE7_Deg,SE8_Deg};
   21          /* ms 延时 */
   22          void Delay_Ms(uint32 t)
@@ -50,51 +50,69 @@ line level    source
   41          
   42          void Timer1_Init(void)
   43          {
-  44   1          ET1     =     1;
-  45   1          TMOD   &=   0x0f; 
-  46   1          TMOD   |=   0x10;   
-  47   1          TH1     =   0xA9;   //1MS定时
-  48   1          TL1     =   0x9A;
-  49   1          TR1     =   1;    //开定时器1
-  50   1      
-  51   1      }
-  52          /*
-  53          void Timer_0(void) interrupt 1 
-  54          {
-  55              if(IR_EN ==1)
-C51 COMPILER V9.00   TIMER                                                                 05/20/2015 22:39:18 PAGE 2   
+  44   1      //  TMOD   &=   0x0f;
+  45   1      //  TMOD   |=   0x10;
+  46   1      //  AUXR |= 0X40;
+  47   1      //  IP |= 0x08; //定时器0中断优先级最高
+  48   1      //  TR1=1;
+  49   1      //  ET1=1;
+  50   1          
+  51   1          ET1     =     1;
+  52   1          TMOD   &=   0x0f;
+  53   1          TMOD   |=   0x10;
+  54   1          TH1     =   0xA9;   //1MS定时
+  55   1          TL1     =   0x9A;
+C51 COMPILER V9.00   TIMER                                                                 05/21/2015 14:38:30 PAGE 2   
 
-  56              {
-  57                  Timer_For_IR();
-  58              }
-  59              else
-  60              {
-  61                  Steering_Engine_Control();
-  62              }
-  63          }
-  64          */
-  65          
-  66          void Timer_1(void) interrupt 3
-  67          {
-  68   1          static uint16 ms_count=0;
-  69   1      
-  70   1              TH1     =   0xA9;   
-  71   1          TL1     =   0x9A;
-  72   1      
-  73   1              if(ms_count++ >= 1000)
-  74   1              {
-  75   2                   ms_count = 0;
-  76   2                       if(rec_flag)
-  77   2                       {
-  78   3                           LED5 = ~LED5;
-  79   3                       }
-  80   2                       else
-  81   2                       {
-  82   3                           LED5 = 1;
-  83   3                       }
-  84   2              }
-  85   1              
-  86   1      }
+  56   1          TR1     =   1;    //开定时器1
+  57   1      
+  58   1      }
+  59          /**/
+  60          //void Timer_0(void) interrupt 1
+  61          //{
+  62          //    if(IR_EN ==1)
+  63          //    {
+  64          //        Timer_For_IR();
+  65          //    }
+  66          //    else
+  67          //    {
+  68          //        Steering_Engine_Control();
+  69          //    }
+  70          //}
+  71          
+  72          
+  73          void Timer_1(void) interrupt 3
+  74          {
+  75   1      //   static uint16 ms_count=0;
+  76   1      
+  77   1      //  if(IR_EN == 1)
+  78   1      //  {
+  79   1      //      Timer_For_IR();
+  80   1      //  }
+  81   1      //  else
+  82   1      //  {
+  83   1      //      Steering_Engine_Control();
+  84   1      //  }
+  85   1      //
+  86   1          
+  87   1          static uint16 ms_count = 0;
+  88   1          TH1     =   0xA9;
+  89   1          TL1     =   0x9A;
+  90   1      
+  91   1          if(ms_count++ >= 1000)
+  92   1          {
+  93   2               ms_count = 0;
+  94   2               if(rec_flag)
+  95   2               {
+  96   3                   LED5 = ~LED5;
+  97   3               }
+  98   2               else
+  99   2               {
+ 100   3                   LED5 = 1;
+ 101   3               }
+ 102   2          }
+ 103   1              
+ 104   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

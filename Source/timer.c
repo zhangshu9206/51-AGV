@@ -10,12 +10,12 @@ By WIFI机器人网·机器人创意工作室
 #include "IR.h"
 #include "Soft_uart.h"
 
-uint8 rec_flag;
-uint8 rec_flag;
-uint16 Sampling_cnt;
-bit IR_38K_En;
-bit IR_R_T; 
-bit IR_EN;
+//uint8 rec_flag;
+//uint8 rec_flag;
+//uint16 Sampling_cnt;
+//bit IR_38K_En;
+//bit IR_R_T;
+//bit IR_EN;
 void Steering_Engine_Control(void);
 uint16 se_timer[8]={SE1_Deg,SE2_Deg,SE3_Deg,SE4_Deg,SE5_Deg,SE6_Deg,SE7_Deg,SE8_Deg};
 /* ms 延时 */
@@ -41,46 +41,64 @@ void Timer0_Init(void)
 
 void Timer1_Init(void)
 {
-    ET1     =	  1;
-    TMOD   &=   0x0f; 
-    TMOD   |=   0x10;   
+//  TMOD   &=   0x0f;
+//  TMOD   |=   0x10;
+//  AUXR |= 0X40;
+//  IP |= 0x08; //定时器0中断优先级最高
+//  TR1=1;
+//  ET1=1;
+    
+    ET1     =     1;
+    TMOD   &=   0x0f;
+    TMOD   |=   0x10;
     TH1     =   0xA9;   //1MS定时
     TL1     =   0x9A;
     TR1     =   1;    //开定时器1
 
 }
-/*
-void Timer_0(void) interrupt 1 
-{
-    if(IR_EN ==1)
-    {
-        Timer_For_IR();
-    }
-    else
-    {
-        Steering_Engine_Control();
-    }
-}
-*/
+/**/
+//void Timer_0(void) interrupt 1
+//{
+//    if(IR_EN ==1)
+//    {
+//        Timer_For_IR();
+//    }
+//    else
+//    {
+//        Steering_Engine_Control();
+//    }
+//}
+
 
 void Timer_1(void) interrupt 3
 {
-    static uint16 ms_count=0;
+//   static uint16 ms_count=0;
 
-	TH1     =   0xA9;   
+//  if(IR_EN == 1)
+//  {
+//      Timer_For_IR();
+//  }
+//  else
+//  {
+//      Steering_Engine_Control();
+//  }
+//
+    
+    static uint16 ms_count = 0;
+    TH1     =   0xA9;
     TL1     =   0x9A;
 
-	if(ms_count++ >= 1000)
-	{
-	     ms_count = 0;
-		 if(rec_flag)
-		 {
-		     LED5 = ~LED5;
-		 }
-		 else
-		 {
-		     LED5 = 1;
-		 }
-	}
+    if(ms_count++ >= 1000)
+    {
+         ms_count = 0;
+         if(rec_flag)
+         {
+             LED5 = ~LED5;
+         }
+         else
+         {
+             LED5 = 1;
+         }
+    }
 	
 }

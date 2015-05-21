@@ -94,13 +94,27 @@ void Send(void)
 void Timer_0(void) interrupt 1 using 3
 {
     /*调用红外与舵机*/
-    if(IR_EN ==1)
+    if(IS_CON == 1)
     {
-        Timer_For_IR();
+        Timer0_Init();
+
+        if(IR_EN == 1)
+        {
+            Timer_For_IR();
+        }
+        else
+        {
+            Steering_Engine_Control();
+        }
     }
     else
     {
-        Steering_Engine_Control();
+//      TMOD &= 0x00;
+//      AUXR &= 0X00;
+//      IP &= 0x00; //定时器0中断优先级最高
+//      TR0 = 0;
+//      ET0 = 0;
+//      initiate_soft_uart();
     }
     
     /*调用软件串口*/
@@ -122,7 +136,7 @@ void Timer_0(void) interrupt 1 using 3
 #endif
 
 void soft_rs232_init (void)            //串口初始化  
-{
+{ 
   TH0=-BaudT; TL0=-BaudT; TR0=1;
  
   Rptr1=0;Rnum1=0;Tptr1=0;Tnum1=0;
@@ -140,11 +154,13 @@ void soft_rs232_init (void)            //串口初始化
     IE_ETx = 1;                        //允许定时器中断 
 	IE|=0x82; 
     TCON_ENABLE_TIMER = 1;             //启动定时器  
+    
 }
 
 void initiate_soft_uart (void)               //软件串口初始化  
 {
     soft_rs232_init();                 //串口初始化  
+//  Timer0_Init();
     EA = 1;                            //开中断  
 }
 
@@ -186,7 +202,11 @@ void rs_Communication_Decode(void)
                return;
         }
     }
-    else
+    else if(rs_buffer[0] == '3')
+    {
+        IS_CON = 1;
+    }
+    else 
     {
         return;
     }
@@ -202,7 +222,7 @@ INT8U rs_receive_byte(void)      //接收一个字节  先调用soft_receive_enable()
     UART_send("outputByte:", strlen("outputByte:"));  
     UART_send(&outputByte, strlen(&outputByte)); 
 */
-    
+    //Arduino端信息解析
     if(rs_rec_flag == 0) 
     {
         if(outputByte == 'F') 

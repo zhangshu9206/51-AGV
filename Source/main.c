@@ -14,7 +14,6 @@ By WIFI机器人网·机器人创意工作室
 #include "SelfTest.h"
 #include "Soft_uart.h"
 
-//INT8U *ReceivedData;
 INT8U xdata ReceivedData;
 #define DEBUG 1//是否开启打印开关
 
@@ -29,20 +28,19 @@ void main(void)
 
     UART_init();//串口初始
 	
-    Timer0_Init();//舵机定时（或生成红外方波）
+//  Timer0_Init();//舵机定时（或生成红外方波）
     Timer1_Init();//串口接收LED闪动
     Motor_Init();
 
     UART_send("UART_init OK", strlen("UART_init OK")); 
 
-    initiate_soft_uart(); 
-    UART_send("soft_UART_init OK", strlen("soft_UART_init OK")); 
+    initiate_soft_uart();//软串口初始（与舵机会产生干扰）
+//  UART_send("soft_UART_init OK", strlen("soft_UART_init OK"));
 
     while(1)
 	{
   		Cruising_Mod();//模式功能执行子函数
-        ReceivedData=rs_receive_byte(); 
-        //UART_send(&ReceivedData, strlen(&ReceivedData));
+        ReceivedData=rs_receive_byte();
         rs_send_byte(ReceivedData);
 	}
 }

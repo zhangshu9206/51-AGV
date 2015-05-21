@@ -19,8 +19,7 @@ uint8 xdata buffer[3];
 uint8 rec_flag=0;	//等于0等待接受 等于1正在接受 
 extern uchar IR_Type;  
 extern uchar IR_Num;
-extern uchar Cruising_Flag;
-
+extern uchar Cruising_Flag; 
 
 void UART_init(void)
 {
@@ -126,7 +125,33 @@ void Communication_Decode(void)
 		  case 0x02: Cruising_Flag = 0x02; break;//巡线
 		  case 0x03: Cruising_Flag = 0x03; break;//避障
 		  case 0x04: Cruising_Flag = 0x04; break;//雷达避障
-		  case 0x00: Cruising_Flag = 0x00; break;//正常模式
+           case 0x00: 
+               {
+                  Cruising_Flag = 0x00; 
+                  if(buffer[2] == 0x00)
+                  {
+                      IS_CON = 1;
+                      UART_send("IS_CON1", strlen("IS_CON1")); 
+                      break; //正常模式
+                  }
+                  else if(buffer[2] == 0x01)
+                  {
+                      IS_CON = 0;
+                      UART_send("IS_CON0", strlen("IS_CON0")); 
+                      
+                      TMOD &= 0x00;
+                      AUXR &= 0X00;
+                      IP &= 0x00; //定时器0中断优先级最高
+                      TR0 = 0;
+                      ET0 = 0;
+                      initiate_soft_uart();
+                      break; //正常模式
+                  }
+                  else
+                  ;
+                  break; 
+               }
+             
 		  default:Cruising_Flag = 0x00; break;//正常模式
 		}
 	}

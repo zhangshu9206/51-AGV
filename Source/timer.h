@@ -15,7 +15,7 @@ extern uint8 rec_flag;
 extern uint16 Sampling_cnt;
 extern bit IR_38K_En;
 extern bit IR_R_T;
-extern bit IR_EN;
+extern bit IR_EN; 
 extern void Steering_Engine_Control(void);
 
 void Delay_Ms(uint32 t);
