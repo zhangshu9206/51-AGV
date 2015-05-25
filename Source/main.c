@@ -34,7 +34,7 @@ void main(void)
 
     UART_send("UART_init OK", strlen("UART_init OK")); 
 
-    initiate_soft_uart();//软串口初始（与舵机会产生干扰）
+    initiate_soft_uart();//1、软串口初始 2、舵机初始（与舵机会产生干扰）
 //  UART_send("soft_UART_init OK", strlen("soft_UART_init OK"));
 
     while(1)

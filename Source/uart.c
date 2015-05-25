@@ -13,6 +13,7 @@ By WIFI机器人网·机器人创意工作室
 #include "mem.h"
 #include "IR.h"
 #include "timer.h"	 
+#include "Soft_uart.h"
 
 extern uint16 se_timer[8];
 uint8 xdata buffer[3];
@@ -20,6 +21,8 @@ uint8 rec_flag=0;	//等于0等待接受 等于1正在接受
 extern uchar IR_Type;  
 extern uchar IR_Num;
 extern uchar Cruising_Flag; 
+
+bit IS_CON;
 
 void UART_init(void)
 {
@@ -72,11 +75,17 @@ void Communication_Decode(void)
 				UART_send("FF000200FF",strlen("FF000200FF"));
 				return;
 			case 0x03:
-				MOTOR_GO_LEFT;    
-				//UART_send("FF000200FF",strlen("FF000200FF"));
+				MOTOR_GO_LEFT; 
+				UART_send("FF000300FF",strlen("FF000300FF"));   
 				return;
-		    case 0x04:MOTOR_GO_RIGHT;   return;
-			case 0x00:MOTOR_GO_STOP;    return;
+		    case 0x04:
+				MOTOR_GO_RIGHT;   
+				UART_send("FF000400FF",strlen("FF000400FF"));
+				return;
+			case 0x00:
+				MOTOR_GO_STOP;   
+				UART_send("FF000000FF",strlen("FF000000FF")); 
+				return;
 			default: return;
 		}	
 	}
@@ -97,7 +106,33 @@ void Communication_Decode(void)
 			default : return;
 		}
 	}
-	else if(buffer[0]==0x50)	  //遥控器红外接收(学习)
+    else if(buffer[0] == 0x40)      //机械臂动作组控制(向软串口发送指令)
+    {
+        INT8U Byte[5] = ""; 
+        switch(buffer[1])
+        {
+           case 0x01:
+//             sprintf(Tbuf1, "F410F");
+//  		   rs_send_byte('f');
+               //UART_send(Tbuf1, strlen(Tbuf1)); 
+               
+               rs_UART_send("F410F");
+               UART_send("ss_F410F", strlen("ss_F410F")); 
+               return;
+           case 0x02:
+               rs_UART_send("F420F"); 
+               UART_send("ss_F420F", strlen("ss_F410F")); 
+               return;
+           case 0x00:
+               rs_UART_send("F400F"); 
+               UART_send("ss_F400F", strlen("ss_F410F")); 
+               return;
+           default:
+               return;
+        } 
+        
+    }
+    else if(buffer[0] == 0x50)      //遥控器红外接收(学习
 	{
 		if((buffer[1]<5)&&(buffer[2]<10))
 		{
@@ -121,38 +156,40 @@ void Communication_Decode(void)
 	{
 	    switch(buffer[1])
 		{
-		  case 0x01: Cruising_Flag = 0x01; break;//跟随
-		  case 0x02: Cruising_Flag = 0x02; break;//巡线
-		  case 0x03: Cruising_Flag = 0x03; break;//避障
-		  case 0x04: Cruising_Flag = 0x04; break;//雷达避障
-           case 0x00: 
-               {
-                  Cruising_Flag = 0x00; 
-                  if(buffer[2] == 0x00)
-                  {
-                      IS_CON = 1;
-                      UART_send("IS_CON1", strlen("IS_CON1")); 
-                      break; //正常模式
-                  }
-                  else if(buffer[2] == 0x01)
-                  {
-                      IS_CON = 0;
-                      UART_send("IS_CON0", strlen("IS_CON0")); 
-                      
-                      TMOD &= 0x00;
-                      AUXR &= 0X00;
-                      IP &= 0x00; //定时器0中断优先级最高
-                      TR0 = 0;
-                      ET0 = 0;
-                      initiate_soft_uart();
-                      break; //正常模式
-                  }
-                  else
-                  ;
-                  break; 
-               }
-             
-		  default:Cruising_Flag = 0x00; break;//正常模式
+            case 0x01: Cruising_Flag = 0x01; break;//跟随
+            case 0x02: Cruising_Flag = 0x02; break;//巡线
+            case 0x03: Cruising_Flag = 0x03; break;//避障
+            case 0x04: Cruising_Flag = 0x04; break;//雷达避障
+            case 0x00: 
+            {
+                
+                if(buffer[2] == 0x00)             //云台控制
+                {
+                  IS_CON = 1;
+                  UART_send("IS_CON1", strlen("IS_CON1")); 
+                  break; //正常模式
+                }
+                else if(buffer[2] == 0x01)        //软串口初始 gokit控制
+                {
+                  IS_CON = 0;
+                  UART_send("IS_CON0", strlen("IS_CON0")); 
+                  
+                  TMOD &= 0x00;
+                  AUXR &= 0X00;
+                  IP &= 0x00; //定时器0中断优先级最高
+                  TR0 = 0;
+                  ET0 = 0;
+                  initiate_soft_uart();
+                  break; //正常模式
+                }
+                else
+                ;
+                
+                Cruising_Flag = 0x00; 
+                
+                break; 
+            }
+            default:Cruising_Flag = 0x00; break;//正常模式
 		}
 	}
 	else

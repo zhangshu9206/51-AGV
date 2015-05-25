@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        05/21/2015  14:38:31  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/25/2015  23:46:14  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
@@ -20,6 +20,7 @@ INPUT MODULES INCLUDED:
   .\lib\IR.LIB (IR)
   .\lib\MEM.LIB (MEM)
   G:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  G:\KEIL\C51\LIB\C51S.LIB (?C?COPY)
   G:\KEIL\C51\LIB\C51S.LIB (?C?CLDPTR)
   G:\KEIL\C51\LIB\C51S.LIB (?C?IMUL)
   G:\KEIL\C51\LIB\C51S.LIB (?C?LMUL)
@@ -41,15 +42,16 @@ LINK MAP OF MODULE:  motor_con (MAIN)
             REG     0018H     0008H     ABSOLUTE     "REG BANK 3"
             BIT     0020H.0   0000H.3   UNIT         ?BI?IR
             BIT     0020H.3   0000H.2   UNIT         ?BI?SOFT_UART
-                    0020H.5   0000H.3                *** GAP ***
+            BIT     0020H.5   0000H.1   UNIT         ?BI?UART
+                    0020H.6   0000H.2                *** GAP ***
             DATA    0021H     0012H     UNIT         ?DT?TIMER
-            DATA    0033H     000BH     UNIT         ?DT?IR
-            DATA    003EH     0006H     UNIT         _DATA_GROUP_
-            DATA    0044H     0004H     UNIT         ?DT?_DELAY_FORBARRIER?MOTOR
-            DATA    0048H     0003H     UNIT         ?DT?MOTOR
-            DATA    004BH     0002H     UNIT         ?DT?UART
-            DATA    004DH     0001H     UNIT         ?DT?STEER
-            IDATA   004EH     0001H     UNIT         ?STACK
+            DATA    0033H     000EH     UNIT         _DATA_GROUP_
+            DATA    0041H     000BH     UNIT         ?DT?IR
+            DATA    004CH     0004H     UNIT         ?DT?_DELAY_FORBARRIER?MOTOR
+            DATA    0050H     0003H     UNIT         ?DT?MOTOR
+            DATA    0053H     0002H     UNIT         ?DT?UART
+            DATA    0055H     0001H     UNIT         ?DT?STEER
+            IDATA   0056H     0001H     UNIT         ?STACK
 
             * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
             XDATA   0000H     00C8H     UNIT         ?XD?IR
@@ -57,11 +59,11 @@ LINK MAP OF MODULE:  motor_con (MAIN)
             XDATA   010BH     0003H     UNIT         ?XD?UART
             XDATA   010EH     0001H     UNIT         ?XD?MAIN
 
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 2
+
+
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 2
-
-
             CODE    0003H     0006H     UNIT         ?PR?INITIATE_SOFT_UART?SOFT_UART
                     0009H     0002H                  *** GAP ***
             CODE    000BH     0003H     ABSOLUTE     
@@ -69,46 +71,47 @@ LINK MAP OF MODULE:  motor_con (MAIN)
             CODE    001BH     0003H     ABSOLUTE     
                     001EH     0005H                  *** GAP ***
             CODE    0023H     0003H     ABSOLUTE     
-            CODE    0026H     021DH     UNIT         ?PR?STEERING_ENGINE_CONTROL?STEER
-            CODE    0243H     01FFH     UNIT         ?PR?COMMUNICATION_DECODE?UART
-            CODE    0442H     0185H     UNIT         ?PR?IR_REC?IR
-            CODE    05C7H     0168H     UNIT         ?C?LIB_CODE
-            CODE    072FH     00D3H     UNIT         ?PR?IR_TRA?IR
-            CODE    0802H     0094H     UNIT         ?PR?GET_DISTANCE?MOTOR
-            CODE    0896H     008CH     UNIT         ?C_C51STARTUP
-            CODE    0922H     0079H     UNIT         ?PR?UART_INTERRUPT_RECEIVE?UART
-            CODE    099BH     0075H     UNIT         ?PR?FOLLOWLINE?MOTOR
-            CODE    0A10H     0072H     UNIT         ?PR?AVOIDING?MOTOR
-            CODE    0A82H     0071H     UNIT         ?PR?RS_COMMUNICATION_DECODE?SOFT_UART
-            CODE    0AF3H     0069H     UNIT         ?PR?TIMER_0?SOFT_UART
-            CODE    0B5CH     0066H     UNIT         ?PR?TESTAPP_INIT?SELFTEST
-            CODE    0BC2H     0064H     UNIT         ?PR?RS_RECEIVE_BYTE?SOFT_UART
-            CODE    0C26H     004CH     UNIT         ?PR?RECV?SOFT_UART
-            CODE    0C72H     0047H     UNIT         ?PR?SEND?SOFT_UART
-            CODE    0CB9H     0039H     UNIT         ?PR?TIMER_1?TIMER
-            CODE    0CF2H     0037H     UNIT         ?PR?SOFT_RS232_INIT?SOFT_UART
-            CODE    0D29H     0037H     UNIT         ?PR?_RS_SEND_BYTE?SOFT_UART
-            CODE    0D60H     0034H     UNIT         ?PR?CRUISING_MOD?MOTOR
-            CODE    0D94H     0033H     UNIT         ?PR?MAIN?MAIN
-            CODE    0DC7H     0031H     UNIT         ?PR?_DELAY_?SELFTEST
-            CODE    0DF8H     0029H     UNIT         ?PR?AVOIDBYRADAR?MOTOR
-            CODE    0E21H     0029H     UNIT         ?PR?_DELAY_FORBARRIER?MOTOR
-            CODE    0E4AH     0029H     UNIT         ?PR?_DELAY_MS?TIMER
-            CODE    0E73H     0029H     UNIT         ?PR?TIMER_FOR_IR?IR
-            CODE    0E9CH     0026H     UNIT         ?C_INITSEG
-            CODE    0EC2H     0026H     UNIT         ?CO?UART
-            CODE    0EE8H     0025H     UNIT         ?PR?SEND_DISTANCE?MOTOR
-            CODE    0F0DH     0024H     UNIT         ?PR?_READ_BYTE?MEM
-            CODE    0F31H     0024H     UNIT         ?PR?_WRITE_BYTE?MEM
-            CODE    0F55H     0022H     UNIT         ?PR?_EARSE_SECTION?MEM
-            CODE    0F77H     001DH     UNIT         ?PR?UART_INIT?UART
-            CODE    0F94H     001AH     UNIT         ?PR?_UART_SEND?UART
-            CODE    0FAEH     0015H     UNIT         ?PR?MOTOR_INIT?MOTOR
-            CODE    0FC3H     0015H     UNIT         ?PR?_STRLEN?STRLEN
-            CODE    0FD8H     0013H     UNIT         ?PR?SEND_WAVE?MOTOR
-            CODE    0FEBH     0011H     UNIT         ?PR?TIMER0_INIT?TIMER
-            CODE    0FFCH     0011H     UNIT         ?PR?TIMER1_INIT?TIMER
-            CODE    100DH     000EH     UNIT         ?PR?_UART_SEND_BYTE?UART
+            CODE    0026H     02C2H     UNIT         ?PR?COMMUNICATION_DECODE?UART
+            CODE    02E8H     025EH     UNIT         ?C?LIB_CODE
+            CODE    0546H     021DH     UNIT         ?PR?STEERING_ENGINE_CONTROL?STEER
+            CODE    0763H     0185H     UNIT         ?PR?IR_REC?IR
+            CODE    08E8H     00D3H     UNIT         ?PR?IR_TRA?IR
+            CODE    09BBH     0094H     UNIT         ?PR?GET_DISTANCE?MOTOR
+            CODE    0A4FH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0ADBH     0079H     UNIT         ?PR?UART_INTERRUPT_RECEIVE?UART
+            CODE    0B54H     0079H     UNIT         ?CO?UART
+            CODE    0BCDH     0075H     UNIT         ?PR?FOLLOWLINE?MOTOR
+            CODE    0C42H     0072H     UNIT         ?PR?AVOIDING?MOTOR
+            CODE    0CB4H     0071H     UNIT         ?PR?RS_COMMUNICATION_DECODE?SOFT_UART
+            CODE    0D25H     0069H     UNIT         ?PR?TIMER_0?SOFT_UART
+            CODE    0D8EH     0066H     UNIT         ?PR?TESTAPP_INIT?SELFTEST
+            CODE    0DF4H     0064H     UNIT         ?PR?RS_RECEIVE_BYTE?SOFT_UART
+            CODE    0E58H     004CH     UNIT         ?PR?RECV?SOFT_UART
+            CODE    0EA4H     0047H     UNIT         ?PR?SEND?SOFT_UART
+            CODE    0EEBH     0039H     UNIT         ?PR?TIMER_1?TIMER
+            CODE    0F24H     0037H     UNIT         ?PR?SOFT_RS232_INIT?SOFT_UART
+            CODE    0F5BH     0037H     UNIT         ?PR?_RS_SEND_BYTE?SOFT_UART
+            CODE    0F92H     0035H     UNIT         ?PR?MAIN?MAIN
+            CODE    0FC7H     0034H     UNIT         ?PR?CRUISING_MOD?MOTOR
+            CODE    0FFBH     0031H     UNIT         ?PR?_DELAY_?SELFTEST
+            CODE    102CH     0031H     UNIT         ?PR?_RS_UART_SEND?SOFT_UART
+            CODE    105DH     0029H     UNIT         ?PR?AVOIDBYRADAR?MOTOR
+            CODE    1086H     0029H     UNIT         ?PR?_DELAY_FORBARRIER?MOTOR
+            CODE    10AFH     0029H     UNIT         ?PR?_DELAY_MS?TIMER
+            CODE    10D8H     0029H     UNIT         ?PR?TIMER_FOR_IR?IR
+            CODE    1101H     0026H     UNIT         ?C_INITSEG
+            CODE    1127H     0025H     UNIT         ?PR?SEND_DISTANCE?MOTOR
+            CODE    114CH     0024H     UNIT         ?PR?_READ_BYTE?MEM
+            CODE    1170H     0024H     UNIT         ?PR?_WRITE_BYTE?MEM
+            CODE    1194H     0022H     UNIT         ?PR?_EARSE_SECTION?MEM
+            CODE    11B6H     001DH     UNIT         ?PR?UART_INIT?UART
+            CODE    11D3H     001AH     UNIT         ?PR?_UART_SEND?UART
+            CODE    11EDH     0015H     UNIT         ?PR?MOTOR_INIT?MOTOR
+            CODE    1202H     0015H     UNIT         ?PR?_STRLEN?STRLEN
+            CODE    1217H     0013H     UNIT         ?PR?SEND_WAVE?MOTOR
+            CODE    122AH     0011H     UNIT         ?PR?TIMER0_INIT?TIMER
+            CODE    123BH     0011H     UNIT         ?PR?TIMER1_INIT?TIMER
+            CODE    124CH     000EH     UNIT         ?PR?_UART_SEND_BYTE?UART
 
 
 
@@ -116,22 +119,27 @@ OVERLAY MAP OF MODULE:   motor_con (MAIN)
 
 
 SEGMENT                                         DATA_GROUP 
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 3
+
+
   +--> CALLED SEGMENT                         START    LENGTH
 -------------------------------------------------------------
 ?PR?UART_INTERRUPT_RECEIVE?UART               -----    -----
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 3
-
-
   +--> ?PR?COMMUNICATION_DECODE?UART
   +--> ?PR?UART_INIT?UART
 
-?PR?COMMUNICATION_DECODE?UART                 -----    -----
+?PR?COMMUNICATION_DECODE?UART                 0033H    0005H
   +--> ?CO?UART
   +--> ?PR?_STRLEN?STRLEN
+  +--> ?PR?_RS_UART_SEND?SOFT_UART
   +--> ?PR?IR_REC?IR
   +--> ?PR?IR_TRA?IR
   +--> ?PR?_UART_SEND?UART
   +--> ?PR?INITIATE_SOFT_UART?SOFT_UART
+
+?PR?_RS_UART_SEND?SOFT_UART                   0038H    0003H
+  +--> ?PR?_STRLEN?STRLEN
+  +--> ?PR?_RS_SEND_BYTE?SOFT_UART
 
 ?PR?IR_REC?IR                                 -----    -----
   +--> ?PR?_EARSE_SECTION?MEM
@@ -171,16 +179,16 @@ SEGMENT                                         DATA_GROUP
   +--> ?PR?_UART_SEND?UART
   +--> ?PR?INITIATE_SOFT_UART?SOFT_UART
   +--> ?PR?CRUISING_MOD?MOTOR
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 4
+
+
   +--> ?PR?RS_RECEIVE_BYTE?SOFT_UART
   +--> ?PR?_RS_SEND_BYTE?SOFT_UART
 
-?PR?TESTAPP_INIT?SELFTEST                     003EH    0002H
+?PR?TESTAPP_INIT?SELFTEST                     003BH    0002H
   +--> ?PR?_DELAY_?SELFTEST
 
-?PR?_DELAY_?SELFTEST                          0040H    0004H
-
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 4
-
+?PR?_DELAY_?SELFTEST                          003DH    0004H
 
 ?PR?CRUISING_MOD?MOTOR                        -----    -----
   +--> ?PR?FOLLOWLINE?MOTOR
@@ -196,18 +204,13 @@ SEGMENT                                         DATA_GROUP
   +--> ?PR?GET_DISTANCE?MOTOR
   +--> ?PR?_DELAY_MS?TIMER
 
-?PR?GET_DISTANCE?MOTOR                        003EH    0004H
+?PR?GET_DISTANCE?MOTOR                        003BH    0004H
   +--> ?PR?SEND_WAVE?MOTOR
 
-?PR?_DELAY_MS?TIMER                           003EH    0004H
+?PR?_DELAY_MS?TIMER                           003BH    0004H
 
 ?PR?RS_RECEIVE_BYTE?SOFT_UART                 -----    -----
   +--> ?PR?RS_COMMUNICATION_DECODE?SOFT_UART
-
-
-
-UNRESOLVED EXTERNAL SYMBOLS:
-   IS_CON
 
 
 
@@ -224,7 +227,7 @@ SYMBOL TABLE OF MODULE:  motor_con (MAIN)
   D:00D8H         PUBLIC        CCON
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  C:0026H         PUBLIC        Steering_Engine_Control
+  C:0546H         PUBLIC        Steering_Engine_Control
   B:0090H.0       PUBLIC        SE1
   B:0090H.1       PUBLIC        SE2
   B:0090H.2       PUBLIC        SE3
@@ -236,76 +239,76 @@ SYMBOL TABLE OF MODULE:  motor_con (MAIN)
   B:0090H.7       PUBLIC        SE8
   D:008AH         PUBLIC        TL0
   D:00D0H         PUBLIC        PSW
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 5
+
+
   -------         PROC          STEERING_ENGINE_CONTROL
   -------         DO            
-  D:004DH         SYMBOL        se_count
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 5
-
-
+  D:0055H         SYMBOL        se_count
   D:0002H         SYMBOL        temp
   -------         ENDDO         
-  C:0026H         LINE#         8
-  C:0026H         LINE#         9
-  C:0026H         LINE#         12
-  C:0067H         LINE#         13
-  C:0067H         LINE#         14
-  C:007AH         LINE#         15
-  C:0080H         LINE#         16
-  C:0085H         LINE#         17
-  C:0097H         LINE#         18
-  C:009DH         LINE#         19
-  C:00A2H         LINE#         20
-  C:00B5H         LINE#         21
-  C:00BBH         LINE#         22
-  C:00C0H         LINE#         23
-  C:00D2H         LINE#         24
-  C:00D8H         LINE#         25
-  C:00DDH         LINE#         26
-  C:00F0H         LINE#         27
-  C:00F6H         LINE#         28
-  C:00FBH         LINE#         29
-  C:010DH         LINE#         30
-  C:0113H         LINE#         31
-  C:0118H         LINE#         32
-  C:012BH         LINE#         33
-  C:0131H         LINE#         34
-  C:0136H         LINE#         35
-  C:0148H         LINE#         36
-  C:014EH         LINE#         37
-  C:0153H         LINE#         38
-  C:0166H         LINE#         39
-  C:016CH         LINE#         40
-  C:0171H         LINE#         41
-  C:0183H         LINE#         42
-  C:0189H         LINE#         43
-  C:018EH         LINE#         44
-  C:01A1H         LINE#         45
-  C:01A7H         LINE#         46
-  C:01ACH         LINE#         47
-  C:01BEH         LINE#         48
-  C:01C4H         LINE#         49
-  C:01C8H         LINE#         50
-  C:01DBH         LINE#         51
-  C:01E1H         LINE#         52
-  C:01E5H         LINE#         53
-  C:01F7H         LINE#         54
-  C:01FDH         LINE#         55
-  C:0201H         LINE#         56
-  C:0214H         LINE#         57
-  C:021AH         LINE#         58
-  C:021EH         LINE#         59
-  C:0230H         LINE#         60
-  C:0236H         LINE#         61
-  C:0238H         LINE#         62
-  C:0238H         LINE#         63
-  C:023AH         LINE#         64
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 6
+  C:0546H         LINE#         8
+  C:0546H         LINE#         9
+  C:0546H         LINE#         12
+  C:0587H         LINE#         13
+  C:0587H         LINE#         14
+  C:059AH         LINE#         15
+  C:05A0H         LINE#         16
+  C:05A5H         LINE#         17
+  C:05B7H         LINE#         18
+  C:05BDH         LINE#         19
+  C:05C2H         LINE#         20
+  C:05D5H         LINE#         21
+  C:05DBH         LINE#         22
+  C:05E0H         LINE#         23
+  C:05F2H         LINE#         24
+  C:05F8H         LINE#         25
+  C:05FDH         LINE#         26
+  C:0610H         LINE#         27
+  C:0616H         LINE#         28
+  C:061BH         LINE#         29
+  C:062DH         LINE#         30
+  C:0633H         LINE#         31
+  C:0638H         LINE#         32
+  C:064BH         LINE#         33
+  C:0651H         LINE#         34
+  C:0656H         LINE#         35
+  C:0668H         LINE#         36
+  C:066EH         LINE#         37
+  C:0673H         LINE#         38
+  C:0686H         LINE#         39
+  C:068CH         LINE#         40
+  C:0691H         LINE#         41
+  C:06A3H         LINE#         42
+  C:06A9H         LINE#         43
+  C:06AEH         LINE#         44
+  C:06C1H         LINE#         45
+  C:06C7H         LINE#         46
+  C:06CCH         LINE#         47
+  C:06DEH         LINE#         48
+  C:06E4H         LINE#         49
+  C:06E8H         LINE#         50
+  C:06FBH         LINE#         51
+  C:0701H         LINE#         52
+  C:0705H         LINE#         53
+  C:0717H         LINE#         54
+  C:071DH         LINE#         55
+  C:0721H         LINE#         56
+  C:0734H         LINE#         57
+  C:073AH         LINE#         58
+  C:073EH         LINE#         59
+  C:0750H         LINE#         60
+  C:0756H         LINE#         61
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 6
 
 
-  C:023FH         LINE#         65
-  C:023FH         LINE#         66
-  C:0242H         LINE#         67
-  C:0242H         LINE#         68
+  C:0758H         LINE#         62
+  C:0758H         LINE#         63
+  C:075AH         LINE#         64
+  C:075FH         LINE#         65
+  C:075FH         LINE#         66
+  C:0762H         LINE#         67
+  C:0762H         LINE#         68
   -------         ENDPROC       STEERING_ENGINE_CONTROL
   -------         ENDMOD        STEER
 
@@ -315,25 +318,25 @@ SYMBOL TABLE OF MODULE:  motor_con (MAIN)
   B:0020H.0       PUBLIC        IR_R_T
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
-  D:0033H         PUBLIC        tmp1
-  D:0035H         PUBLIC        tmp2
+  D:0041H         PUBLIC        tmp1
+  D:0043H         PUBLIC        tmp2
   B:00A0H.4       PUBLIC        LED1
   B:00A0H.5       PUBLIC        LED2
-  C:0E73H         PUBLIC        Timer_For_IR
+  C:10D8H         PUBLIC        Timer_For_IR
   B:00A0H.6       PUBLIC        LED3
   B:00A0H.7       PUBLIC        LED4
   B:0080H.7       PUBLIC        LED5
   B:0080H.6       PUBLIC        LED6
   D:00A8H         PUBLIC        IE
   B:0020H.1       PUBLIC        IR_EN
-  C:0442H         PUBLIC        IR_Rec
+  C:0763H         PUBLIC        IR_Rec
   D:00B8H         PUBLIC        IP
-  D:0037H         PUBLIC        IR_Type
-  C:072FH         PUBLIC        IR_Tra
+  D:0045H         PUBLIC        IR_Type
+  C:08E8H         PUBLIC        IR_Tra
   D:00D8H         PUBLIC        CCON
-  D:0038H         PUBLIC        IR_Num
-  D:0039H         PUBLIC        Addr_tmp
-  D:003BH         PUBLIC        Pulse_cnt
+  D:0046H         PUBLIC        IR_Num
+  D:0047H         PUBLIC        Addr_tmp
+  D:0049H         PUBLIC        Pulse_cnt
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
   D:008EH         PUBLIC        AUXR
@@ -344,266 +347,239 @@ SYMBOL TABLE OF MODULE:  motor_con (MAIN)
   B:00A0H.2       PUBLIC        IR_T
   D:008AH         PUBLIC        TL0
   D:008BH         PUBLIC        TL1
-  D:003CH         PUBLIC        Sampling_cnt
+  D:004AH         PUBLIC        Sampling_cnt
   X:0000H         PUBLIC        Pulse_Width_Tab
   D:00D0H         PUBLIC        PSW
   -------         PROC          IR_REC
-  C:0442H         LINE#         22
-  C:0442H         LINE#         23
-  C:0442H         LINE#         24
-  C:0444H         LINE#         25
-  C:0446H         LINE#         26
-  C:0448H         LINE#         27
-  C:044AH         LINE#         28
-  C:044CH         LINE#         29
-  C:044EH         LINE#         31
-  C:0450H         LINE#         32
-  C:0452H         LINE#         33
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 7
+  C:0763H         LINE#         22
+  C:0763H         LINE#         23
+  C:0763H         LINE#         24
+  C:0765H         LINE#         25
+  C:0767H         LINE#         26
+  C:0769H         LINE#         27
+  C:076BH         LINE#         28
+  C:076DH         LINE#         29
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 7
 
 
-  C:0454H         LINE#         34
-  C:0456H         LINE#         35
-  C:0459H         LINE#         36
-  C:045DH         LINE#         37
-  C:045FH         LINE#         39
-  C:0462H         LINE#         40
-  C:0464H         LINE#         41
-  C:0467H         LINE#         42
-  C:046AH         LINE#         43
-  C:046CH         LINE#         44
-  C:046FH         LINE#         45
-  C:0472H         LINE#         47
-  C:047DH         LINE#         48
-  C:047DH         LINE#         49
-  C:0480H         LINE#         50
-  C:0482H         LINE#         51
-  C:0485H         LINE#         52
-  C:0496H         LINE#         53
-  C:04A7H         LINE#         54
-  C:04AAH         LINE#         55
-  C:04ACH         LINE#         56
-  C:04AFH         LINE#         57
-  C:04C0H         LINE#         58
-  C:04D1H         LINE#         59
-  C:04D3H         LINE#         61
-  C:04E0H         LINE#         62
-  C:04E0H         LINE#         63
-  C:050BH         LINE#         64
-  C:0510H         LINE#         65
-  C:051DH         LINE#         66
-  C:052BH         LINE#         68
-  C:0554H         LINE#         69
-  C:0559H         LINE#         70
-  C:0566H         LINE#         71
-  C:0574H         LINE#         72
-  C:057DH         LINE#         74
-  C:0590H         LINE#         75
-  C:0596H         LINE#         76
-  C:0599H         LINE#         77
-  C:0599H         LINE#         78
-  C:05B4H         LINE#         79
-  C:05BDH         LINE#         80
-  C:05BFH         LINE#         81
-  C:05C1H         LINE#         82
-  C:05C3H         LINE#         83
-  C:05C6H         LINE#         84
+  C:076FH         LINE#         31
+  C:0771H         LINE#         32
+  C:0773H         LINE#         33
+  C:0775H         LINE#         34
+  C:0777H         LINE#         35
+  C:077AH         LINE#         36
+  C:077EH         LINE#         37
+  C:0780H         LINE#         39
+  C:0783H         LINE#         40
+  C:0785H         LINE#         41
+  C:0788H         LINE#         42
+  C:078BH         LINE#         43
+  C:078DH         LINE#         44
+  C:0790H         LINE#         45
+  C:0793H         LINE#         47
+  C:079EH         LINE#         48
+  C:079EH         LINE#         49
+  C:07A1H         LINE#         50
+  C:07A3H         LINE#         51
+  C:07A6H         LINE#         52
+  C:07B7H         LINE#         53
+  C:07C8H         LINE#         54
+  C:07CBH         LINE#         55
+  C:07CDH         LINE#         56
+  C:07D0H         LINE#         57
+  C:07E1H         LINE#         58
+  C:07F2H         LINE#         59
+  C:07F4H         LINE#         61
+  C:0801H         LINE#         62
+  C:0801H         LINE#         63
+  C:082CH         LINE#         64
+  C:0831H         LINE#         65
+  C:083EH         LINE#         66
+  C:084CH         LINE#         68
+  C:0875H         LINE#         69
+  C:087AH         LINE#         70
+  C:0887H         LINE#         71
+  C:0895H         LINE#         72
+  C:089EH         LINE#         74
+  C:08B1H         LINE#         75
+  C:08B7H         LINE#         76
+  C:08BAH         LINE#         77
+  C:08BAH         LINE#         78
+  C:08D5H         LINE#         79
+  C:08DEH         LINE#         80
+  C:08E0H         LINE#         81
+  C:08E2H         LINE#         82
+  C:08E4H         LINE#         83
+  C:08E7H         LINE#         84
   -------         ENDPROC       IR_REC
   -------         PROC          IR_TRA
-  C:072FH         LINE#         86
-  C:072FH         LINE#         87
-  C:072FH         LINE#         88
-  C:0735H         LINE#         89
-  C:0737H         LINE#         90
-  C:073AH         LINE#         91
-  C:073CH         LINE#         93
-  C:074FH         LINE#         94
-  C:0752H         LINE#         95
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 8
+  C:08E8H         LINE#         86
+  C:08E8H         LINE#         87
+  C:08E8H         LINE#         88
+  C:08EEH         LINE#         89
+  C:08F0H         LINE#         90
+  C:08F3H         LINE#         91
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 8
 
 
-  C:0752H         LINE#         96
-  C:076DH         LINE#         97
-  C:0776H         LINE#         99
-  C:0779H         LINE#         100
-  C:077CH         LINE#         103
-  C:077FH         LINE#         104
-  C:0783H         LINE#         105
-  C:078EH         LINE#         106
-  C:078EH         LINE#         107
-  C:0791H         LINE#         108
-  C:0793H         LINE#         109
-  C:07BDH         LINE#         111
-  C:07C1H         LINE#         112
-  C:07C4H         LINE#         113
-  C:07C6H         LINE#         114
-  C:07F0H         LINE#         115
-  C:07F4H         LINE#         116
-  C:07F6H         LINE#         118
-  C:07F8H         LINE#         119
-  C:07FBH         LINE#         120
-  C:0801H         LINE#         121
+  C:08F5H         LINE#         93
+  C:0908H         LINE#         94
+  C:090BH         LINE#         95
+  C:090BH         LINE#         96
+  C:0926H         LINE#         97
+  C:092FH         LINE#         99
+  C:0932H         LINE#         100
+  C:0935H         LINE#         103
+  C:0938H         LINE#         104
+  C:093CH         LINE#         105
+  C:0947H         LINE#         106
+  C:0947H         LINE#         107
+  C:094AH         LINE#         108
+  C:094CH         LINE#         109
+  C:0976H         LINE#         111
+  C:097AH         LINE#         112
+  C:097DH         LINE#         113
+  C:097FH         LINE#         114
+  C:09A9H         LINE#         115
+  C:09ADH         LINE#         116
+  C:09AFH         LINE#         118
+  C:09B1H         LINE#         119
+  C:09B4H         LINE#         120
+  C:09BAH         LINE#         121
   -------         ENDPROC       IR_TRA
   -------         PROC          TIMER_FOR_IR
-  C:0E73H         LINE#         123
-  C:0E73H         LINE#         124
-  C:0E73H         LINE#         125
-  C:0E76H         LINE#         126
-  C:0E76H         LINE#         127
-  C:0E79H         LINE#         128
-  C:0E7CH         LINE#         129
-  C:0E84H         LINE#         130
-  C:0E85H         LINE#         132
-  C:0E85H         LINE#         133
-  C:0E88H         LINE#         134
-  C:0E8BH         LINE#         137
-  C:0E93H         LINE#         138
-  C:0E96H         LINE#         139
-  C:0E96H         LINE#         140
-  C:0E98H         LINE#         141
-  C:0E99H         LINE#         143
-  C:0E99H         LINE#         144
-  C:0E9BH         LINE#         145
-  C:0E9BH         LINE#         146
-  C:0E9BH         LINE#         147
+  C:10D8H         LINE#         123
+  C:10D8H         LINE#         124
+  C:10D8H         LINE#         125
+  C:10DBH         LINE#         126
+  C:10DBH         LINE#         127
+  C:10DEH         LINE#         128
+  C:10E1H         LINE#         129
+  C:10E9H         LINE#         130
+  C:10EAH         LINE#         132
+  C:10EAH         LINE#         133
+  C:10EDH         LINE#         134
+  C:10F0H         LINE#         137
+  C:10F8H         LINE#         138
+  C:10FBH         LINE#         139
+  C:10FBH         LINE#         140
+  C:10FDH         LINE#         141
+  C:10FEH         LINE#         143
+  C:10FEH         LINE#         144
+  C:1100H         LINE#         145
+  C:1100H         LINE#         146
+  C:1100H         LINE#         147
   -------         ENDPROC       TIMER_FOR_IR
   -------         ENDMOD        IR
 
   -------         MODULE        MEM
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:00C6H         PUBLIC        ISP_TRIG
-  C:0F55H         PUBLIC        _Earse_Section
+  C:1194H         PUBLIC        _Earse_Section
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   D:00C5H         PUBLIC        ISP_CMD
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 9
+
+
   D:00D8H         PUBLIC        CCON
   D:00C3H         PUBLIC        ISP_ADDRH
   D:0098H         PUBLIC        SCON
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 9
-
-
   D:0088H         PUBLIC        TCON
   D:00C4H         PUBLIC        ISP_ADDRL
-  C:0F0DH         PUBLIC        _Read_Byte
+  C:114CH         PUBLIC        _Read_Byte
   D:00C7H         PUBLIC        ISP_CONTR
-  C:0F31H         PUBLIC        _Write_Byte
+  C:1170H         PUBLIC        _Write_Byte
   D:00C2H         PUBLIC        ISP_DATA
   D:00D0H         PUBLIC        PSW
   -------         PROC          _READ_BYTE
   D:0004H         SYMBOL        Addr
-  C:0F0DH         LINE#         17
-  C:0F11H         LINE#         18
-  C:0F11H         LINE#         19
-  C:0F13H         LINE#         20
-  C:0F16H         LINE#         21
-  C:0F19H         LINE#         22
-  C:0F1CH         LINE#         23
-  C:0F1FH         LINE#         24
-  C:0F22H         LINE#         25
-  C:0F25H         LINE#         26
-  C:0F28H         LINE#         27
-  C:0F2BH         LINE#         28
-  C:0F2EH         LINE#         30
-  C:0F30H         LINE#         31
+  C:114CH         LINE#         17
+  C:1150H         LINE#         18
+  C:1150H         LINE#         19
+  C:1152H         LINE#         20
+  C:1155H         LINE#         21
+  C:1158H         LINE#         22
+  C:115BH         LINE#         23
+  C:115EH         LINE#         24
+  C:1161H         LINE#         25
+  C:1164H         LINE#         26
+  C:1167H         LINE#         27
+  C:116AH         LINE#         28
+  C:116DH         LINE#         30
+  C:116FH         LINE#         31
   -------         ENDPROC       _READ_BYTE
   -------         PROC          _WRITE_BYTE
   D:0002H         SYMBOL        Addr
   D:0005H         SYMBOL        My_Data
-  C:0F31H         LINE#         40
-  C:0F35H         LINE#         41
-  C:0F35H         LINE#         42
-  C:0F37H         LINE#         43
-  C:0F3AH         LINE#         44
-  C:0F3DH         LINE#         45
-  C:0F40H         LINE#         46
-  C:0F42H         LINE#         48
-  C:0F45H         LINE#         49
-  C:0F48H         LINE#         50
-  C:0F4BH         LINE#         51
-  C:0F4EH         LINE#         52
-  C:0F51H         LINE#         53
-  C:0F54H         LINE#         54
+  C:1170H         LINE#         40
+  C:1174H         LINE#         41
+  C:1174H         LINE#         42
+  C:1176H         LINE#         43
+  C:1179H         LINE#         44
+  C:117CH         LINE#         45
+  C:117FH         LINE#         46
+  C:1181H         LINE#         48
+  C:1184H         LINE#         49
+  C:1187H         LINE#         50
+  C:118AH         LINE#         51
+  C:118DH         LINE#         52
+  C:1190H         LINE#         53
+  C:1193H         LINE#         54
   -------         ENDPROC       _WRITE_BYTE
   -------         PROC          _EARSE_SECTION
   D:0004H         SYMBOL        Addr
-  C:0F55H         LINE#         63
-  C:0F59H         LINE#         64
-  C:0F59H         LINE#         65
-  C:0F5BH         LINE#         66
-  C:0F5EH         LINE#         67
-  C:0F61H         LINE#         68
-  C:0F64H         LINE#         70
-  C:0F67H         LINE#         71
-  C:0F6AH         LINE#         72
-  C:0F6DH         LINE#         73
-  C:0F70H         LINE#         74
-  C:0F73H         LINE#         75
-  C:0F76H         LINE#         76
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 10
+  C:1194H         LINE#         63
+  C:1198H         LINE#         64
+  C:1198H         LINE#         65
+  C:119AH         LINE#         66
+  C:119DH         LINE#         67
+  C:11A0H         LINE#         68
+  C:11A3H         LINE#         70
+  C:11A6H         LINE#         71
+  C:11A9H         LINE#         72
+  C:11ACH         LINE#         73
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/25/2015  23:46:14  PAGE 10
 
 
+  C:11AFH         LINE#         74
+  C:11B2H         LINE#         75
+  C:11B5H         LINE#         76
   -------         ENDPROC       _EARSE_SECTION
   -------         ENDMOD        MEM
 
+  -------         MODULE        ?C?COPY
+  C:03B8H         PUBLIC        ?C?COPY
+  -------         ENDMOD        ?C?COPY
+
   -------         MODULE        ?C?CLDPTR
-  C:05C7H         PUBLIC        ?C?CLDPTR
+  C:03DEH         PUBLIC        ?C?CLDPTR
   -------         ENDMOD        ?C?CLDPTR
 
   -------         MODULE        ?C?IMUL
-  C:05E0H         PUBLIC        ?C?IMUL
+  C:03F7H         PUBLIC        ?C?IMUL
   -------         ENDMOD        ?C?IMUL
 
   -------         MODULE        ?C?LMUL
-  C:05F2H         PUBLIC        ?C?LMUL
+  C:0409H         PUBLIC        ?C?LMUL
   -------         ENDMOD        ?C?LMUL
 
   -------         MODULE        ?C?ULDIV
-  C:067DH         PUBLIC        ?C?ULDIV
+  C:0494H         PUBLIC        ?C?ULDIV
   -------         ENDMOD        ?C?ULDIV
 
   -------         MODULE        ?C?LLDIIDATA
-  C:0718H         PUBLIC        ?C?LLDIIDATA
-  C:070FH         PUBLIC        ?C?LLDIIDATA1
-  C:0711H         PUBLIC        ?C?LLDIIDATA8
+  C:052FH         PUBLIC        ?C?LLDIIDATA
+  C:0526H         PUBLIC        ?C?LLDIIDATA1
+  C:0528H         PUBLIC        ?C?LLDIIDATA8
   -------         ENDMOD        ?C?LLDIIDATA
 
   -------         MODULE        STRLEN
-  C:0FC3H         PUBLIC        _STRLEN
+  C:1202H         PUBLIC        _STRLEN
   -------         ENDMOD        STRLEN
 
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DELAY_FORBARRIER?MOTOR
 
-*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
-    SYMBOL:  IS_CON
-    MODULE:  uart.obj (UART)
-
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  IS_CON
-    MODULE:  uart.obj (UART)
-    ADDRESS: 03F7H
-
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  IS_CON
-    MODULE:  uart.obj (UART)
-    ADDRESS: 0417H
-
-*** WARNING L1: UNRESOLVED EXTERNAL SYMBOL
-    SYMBOL:  IS_CON
-    MODULE:  Soft_uart.obj (SOFT_UART)
-
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  IS_CON
-    MODULE:  Soft_uart.obj (SOFT_UART)
-    ADDRESS: 0B01H
-
-*** WARNING L2: REFERENCE MADE TO UNRESOLVED EXTERNAL
-    SYMBOL:  IS_CON
-BL51 BANKED LINKER/LOCATER V6.22                                                      05/21/2015  14:38:31  PAGE 11
-
-
-    MODULE:  Soft_uart.obj (SOFT_UART)
-    ADDRESS: 0AF1H
-
-Program Size: data=78.5 xdata=271 code=4116
-LINK/LOCATE RUN COMPLETE.  7 WARNING(S),  0 ERROR(S)
+Program Size: data=86.6 xdata=271 code=4691
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

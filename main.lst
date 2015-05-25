@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   MAIN                                                                  05/21/2015 14:38:30 PAGE 1   
+C51 COMPILER V9.00   MAIN                                                                  05/25/2015 23:46:13 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE MAIN
@@ -43,7 +43,7 @@ line level    source
   34   1      
   35   1          UART_send("UART_init OK", strlen("UART_init OK")); 
   36   1      
-  37   1          initiate_soft_uart();//软串口初始（与舵机会产生干扰）
+  37   1          initiate_soft_uart();//1、软串口初始 2、舵机初始（与舵机会产生干扰）
   38   1      //  UART_send("soft_UART_init OK", strlen("soft_UART_init OK"));
   39   1      
   40   1          while(1)
@@ -56,13 +56,13 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     51    ----
+   CODE SIZE        =     53    ----
    CONSTANT SIZE    =     13    ----
    XDATA SIZE       =      1    ----
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.00   MAIN                                                                  05/21/2015 14:38:30 PAGE 2   
+C51 COMPILER V9.00   MAIN                                                                  05/25/2015 23:46:13 PAGE 2   
 
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

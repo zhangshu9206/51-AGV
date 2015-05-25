@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   UART                                                                  05/21/2015 14:38:30 PAGE 1   
+C51 COMPILER V9.00   UART                                                                  05/25/2015 23:46:14 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE UART
@@ -22,213 +22,250 @@ line level    source
   13          #include "mem.h"
   14          #include "IR.h"
   15          #include "timer.h"       
-  16          
-  17          extern uint16 se_timer[8];
-  18          uint8 xdata buffer[3];
-  19          uint8 rec_flag=0;       //等于0等待接受 等于1正在接受 
-  20          extern uchar IR_Type;  
-  21          extern uchar IR_Num;
-  22          extern uchar Cruising_Flag; 
-  23          
-  24          void UART_init(void)
-  25          {
-  26   1              PCON |= 0x80;           //使能波特率倍速位SMOD
-  27   1              SCON = 0x50;            //8位数据,可变波特率
-  28   1              BRT = RELOAD_COUNT;             //设定独立波特率发生器重装值
-  29   1              AUXR |= 0x04;           //独立波特率发生器时钟为Fosc,即1T
-  30   1              AUXR |= 0x01;           //串口1选择独立波特率发生器为波特率发生器
-  31   1              AUXR |= 0x10;           //启动独立波特率发生器
-  32   1              ES      =   1;    //允许串口中断
-  33   1          EA      =   1;    //开总中断
-  34   1              TI      =   1;  
-  35   1              EX0=0;
-  36   1              EX1=0;
-  37   1      }
-  38          
-  39          void UART_send_byte(uint8 byte)
-  40          {
-  41   1              ES     =   0;  //关串口中断
-  42   1          TI     =   0;  //清零串口发送完成中断请求标志
-  43   1          SBUF   =   byte;
-  44   1          while(TI ==0); //等待发送完成
-  45   1          TI     =   1;  //清零串口发送完成中断请求标志
-  46   1          ES     =   1;  //允许串口中断
-  47   1      }
-  48          
-  49          void UART_send(uint8 * Buffer, uint16 Length)
-  50          {
-*** WARNING C235 IN LINE 50 OF SOURCE\UART.C: parameter 2: different types
-  51   1              while(Length != 0)
-  52   1              {
-  53   2                      UART_send_byte(*Buffer);
-  54   2                      Buffer++;
-C51 COMPILER V9.00   UART                                                                  05/21/2015 14:38:30 PAGE 2   
+  16          #include "Soft_uart.h"
+  17          
+  18          extern uint16 se_timer[8];
+  19          uint8 xdata buffer[3];
+  20          uint8 rec_flag=0;       //等于0等待接受 等于1正在接受 
+  21          extern uchar IR_Type;  
+  22          extern uchar IR_Num;
+  23          extern uchar Cruising_Flag; 
+  24          
+  25          bit IS_CON;
+  26          
+  27          void UART_init(void)
+  28          {
+  29   1              PCON |= 0x80;           //使能波特率倍速位SMOD
+  30   1              SCON = 0x50;            //8位数据,可变波特率
+  31   1              BRT = RELOAD_COUNT;             //设定独立波特率发生器重装值
+  32   1              AUXR |= 0x04;           //独立波特率发生器时钟为Fosc,即1T
+  33   1              AUXR |= 0x01;           //串口1选择独立波特率发生器为波特率发生器
+  34   1              AUXR |= 0x10;           //启动独立波特率发生器
+  35   1              ES      =   1;    //允许串口中断
+  36   1          EA      =   1;    //开总中断
+  37   1              TI      =   1;  
+  38   1              EX0=0;
+  39   1              EX1=0;
+  40   1      }
+  41          
+  42          void UART_send_byte(uint8 byte)
+  43          {
+  44   1              ES     =   0;  //关串口中断
+  45   1          TI     =   0;  //清零串口发送完成中断请求标志
+  46   1          SBUF   =   byte;
+  47   1          while(TI ==0); //等待发送完成
+  48   1          TI     =   1;  //清零串口发送完成中断请求标志
+  49   1          ES     =   1;  //允许串口中断
+  50   1      }
+  51          
+  52          void UART_send(uint8 * Buffer, uint16 Length)
+  53          {
+  54   1              while(Length != 0)
+  55   1              {
+C51 COMPILER V9.00   UART                                                                  05/25/2015 23:46:14 PAGE 2   
 
-  55   2                      Length--;
-  56   2              }
-  57   1      
-  58   1      }
-  59          
-  60          void Communication_Decode(void)  
-  61          {       
-  62   1              if(buffer[0]==0x00)
-  63   1              {
-  64   2                      switch(buffer[1])
-  65   2                      {
-  66   3                      case 0x01:
-  67   3                                      MOTOR_GO_FORWARD;       
-  68   3                                      UART_send("FF000100FF",strlen("FF000100FF")); 
-  69   3                                      return; 
-  70   3                              case 0x02:
-  71   3                                      MOTOR_GO_BACK;          
-  72   3                                      UART_send("FF000200FF",strlen("FF000200FF"));
-  73   3                                      return;
-  74   3                              case 0x03:
-  75   3                                      MOTOR_GO_LEFT;    
-  76   3                                      //UART_send("FF000200FF",strlen("FF000200FF"));
-  77   3                                      return;
-  78   3                          case 0x04:MOTOR_GO_RIGHT;   return;
-  79   3                              case 0x00:MOTOR_GO_STOP;    return;
-  80   3                              default: return;
-  81   3                      }       
-  82   2              }
-  83   1              else if(buffer[0]==0x01)                                                        
-  84   1              {
-  85   2                      if(buffer[2]>180)
-  86   2                              return;
-  87   2                      switch(buffer[1])
-  88   2                      {
-  89   3                              case 0x01:se_timer[0]=buffer[2]; return;
-  90   3                              case 0x02:se_timer[1]=buffer[2]; return;
-  91   3                              case 0x03:se_timer[2]=buffer[2]; return;
-  92   3                              case 0x04:se_timer[3]=buffer[2]; return;
-  93   3                              case 0x05:se_timer[4]=buffer[2]; return;
-  94   3                              case 0x06:se_timer[5]=buffer[2]; return;
-  95   3                              case 0x07:se_timer[6]=buffer[2]; return;
-  96   3                              case 0x08:se_timer[7]=buffer[2]; return;
-  97   3                              default : return;
-  98   3                      }
-  99   2              }
- 100   1              else if(buffer[0]==0x50)          //遥控器红外接收(学习)
- 101   1              {
- 102   2                      if((buffer[1]<5)&&(buffer[2]<10))
- 103   2                      {
- 104   3                              IR_Type = buffer[1];
- 105   3                              IR_Num = buffer[2];
- 106   3                              IR_Rec(); 
+  56   2                      UART_send_byte(*Buffer);
+  57   2                      Buffer++;
+  58   2                      Length--;
+  59   2              }
+  60   1      
+  61   1      }
+  62          
+  63          void Communication_Decode(void)  
+  64          {       
+  65   1              if(buffer[0]==0x00)
+  66   1              {
+  67   2                      switch(buffer[1])
+  68   2                      {
+  69   3                      case 0x01:
+  70   3                                      MOTOR_GO_FORWARD;       
+  71   3                                      UART_send("FF000100FF",strlen("FF000100FF")); 
+  72   3                                      return; 
+  73   3                              case 0x02:
+  74   3                                      MOTOR_GO_BACK;          
+  75   3                                      UART_send("FF000200FF",strlen("FF000200FF"));
+  76   3                                      return;
+  77   3                              case 0x03:
+  78   3                                      MOTOR_GO_LEFT; 
+  79   3                                      UART_send("FF000300FF",strlen("FF000300FF"));   
+  80   3                                      return;
+  81   3                          case 0x04:
+  82   3                                      MOTOR_GO_RIGHT;   
+  83   3                                      UART_send("FF000400FF",strlen("FF000400FF"));
+  84   3                                      return;
+  85   3                              case 0x00:
+  86   3                                      MOTOR_GO_STOP;   
+  87   3                                      UART_send("FF000000FF",strlen("FF000000FF")); 
+  88   3                                      return;
+  89   3                              default: return;
+  90   3                      }       
+  91   2              }
+  92   1              else if(buffer[0]==0x01)                                                        
+  93   1              {
+  94   2                      if(buffer[2]>180)
+  95   2                              return;
+  96   2                      switch(buffer[1])
+  97   2                      {
+  98   3                              case 0x01:se_timer[0]=buffer[2]; return;
+  99   3                              case 0x02:se_timer[1]=buffer[2]; return;
+ 100   3                              case 0x03:se_timer[2]=buffer[2]; return;
+ 101   3                              case 0x04:se_timer[3]=buffer[2]; return;
+ 102   3                              case 0x05:se_timer[4]=buffer[2]; return;
+ 103   3                              case 0x06:se_timer[5]=buffer[2]; return;
+ 104   3                              case 0x07:se_timer[6]=buffer[2]; return;
+ 105   3                              case 0x08:se_timer[7]=buffer[2]; return;
+ 106   3                              default : return;
  107   3                      }
- 108   2                      return;                   
- 109   2              }
- 110   1              else if(buffer[0]==0x51)          //遥控器红外发射(控制)
- 111   1              {
- 112   2                      if((buffer[1]<5)&&(buffer[2]<10))
- 113   2                      {
- 114   3                              IR_Type = buffer[1];
- 115   3                              IR_Num = buffer[2];
- 116   3                              IR_Tra(); 
-C51 COMPILER V9.00   UART                                                                  05/21/2015 14:38:30 PAGE 3   
+ 108   2              }
+ 109   1          else if(buffer[0] == 0x40)      //机械臂动作组控制(向软串口发送指令)
+ 110   1          {
+ 111   2              INT8U Byte[5] = ""; 
+ 112   2              switch(buffer[1])
+ 113   2              {
+ 114   3                 case 0x01:
+ 115   3      //             sprintf(Tbuf1, "F410F");
+ 116   3      //                 rs_send_byte('f');
+ 117   3                     //UART_send(Tbuf1, strlen(Tbuf1)); 
+C51 COMPILER V9.00   UART                                                                  05/25/2015 23:46:14 PAGE 3   
 
- 117   3                      }
- 118   2                      return;                   
- 119   2              }
- 120   1              else if(buffer[0]==0x13)//模式切换开关
- 121   1              {
- 122   2                  switch(buffer[1])
- 123   2                      {
- 124   3                        case 0x01: Cruising_Flag = 0x01; break;//跟随
- 125   3                        case 0x02: Cruising_Flag = 0x02; break;//巡线
- 126   3                        case 0x03: Cruising_Flag = 0x03; break;//避障
- 127   3                        case 0x04: Cruising_Flag = 0x04; break;//雷达避障
- 128   3                 case 0x00: 
- 129   3                     {
- 130   4                        Cruising_Flag = 0x00; 
- 131   4                        if(buffer[2] == 0x00)
- 132   4                        {
- 133   5                            IS_CON = 1;
- 134   5                            UART_send("IS_CON1", strlen("IS_CON1")); 
- 135   5                            break; //正常模式
- 136   5                        }
- 137   4                        else if(buffer[2] == 0x01)
- 138   4                        {
- 139   5                            IS_CON = 0;
- 140   5                            UART_send("IS_CON0", strlen("IS_CON0")); 
- 141   5                            
- 142   5                            TMOD &= 0x00;
- 143   5                            AUXR &= 0X00;
- 144   5                            IP &= 0x00; //定时器0中断优先级最高
- 145   5                            TR0 = 0;
- 146   5                            ET0 = 0;
- 147   5                            initiate_soft_uart();
-*** WARNING C206 IN LINE 147 OF SOURCE\UART.C: 'initiate_soft_uart': missing function-prototype
- 148   5                            break; //正常模式
- 149   5                        }
- 150   4                        else
- 151   4                        ;
- 152   4                        break; 
- 153   4                     }
- 154   3                   
- 155   3                        default:Cruising_Flag = 0x00; break;//正常模式
- 156   3                      }
- 157   2              }
- 158   1              else
- 159   1              {
- 160   2                      return;
- 161   2              }
- 162   1      }
- 163          
- 164          void UART_Interrupt_Receive(void) interrupt 4
- 165          {
- 166   1              static uint8 i;
- 167   1      
- 168   1          if(RI==1)
- 169   1          {
- 170   2              RI  =   0;
- 171   2              if(rec_flag==0)
- 172   2                      {
- 173   3                              if(SBUF==0xff)
- 174   3                              {
- 175   4                                      rec_flag=1;     
- 176   4                                      i=0;
- 177   4                              }                       
-C51 COMPILER V9.00   UART                                                                  05/21/2015 14:38:30 PAGE 4   
+ 118   3                     
+ 119   3                     rs_UART_send("F410F");
+ 120   3                     UART_send("ss_F410F", strlen("ss_F410F")); 
+ 121   3                     return;
+ 122   3                 case 0x02:
+ 123   3                     rs_UART_send("F420F"); 
+ 124   3                     UART_send("ss_F420F", strlen("ss_F410F")); 
+ 125   3                     return;
+ 126   3                 case 0x00:
+ 127   3                     rs_UART_send("F400F"); 
+ 128   3                     UART_send("ss_F400F", strlen("ss_F410F")); 
+ 129   3                     return;
+ 130   3                 default:
+ 131   3                     return;
+ 132   3              } 
+ 133   2              
+ 134   2          }
+ 135   1          else if(buffer[0] == 0x50)      //遥控器红外接收(学习
+ 136   1              {
+ 137   2                      if((buffer[1]<5)&&(buffer[2]<10))
+ 138   2                      {
+ 139   3                              IR_Type = buffer[1];
+ 140   3                              IR_Num = buffer[2];
+ 141   3                              IR_Rec(); 
+ 142   3                      }
+ 143   2                      return;                   
+ 144   2              }
+ 145   1              else if(buffer[0]==0x51)          //遥控器红外发射(控制)
+ 146   1              {
+ 147   2                      if((buffer[1]<5)&&(buffer[2]<10))
+ 148   2                      {
+ 149   3                              IR_Type = buffer[1];
+ 150   3                              IR_Num = buffer[2];
+ 151   3                              IR_Tra(); 
+ 152   3                      }
+ 153   2                      return;                   
+ 154   2              }
+ 155   1              else if(buffer[0]==0x13)//模式切换开关
+ 156   1              {
+ 157   2                  switch(buffer[1])
+ 158   2                      {
+ 159   3                  case 0x01: Cruising_Flag = 0x01; break;//跟随
+ 160   3                  case 0x02: Cruising_Flag = 0x02; break;//巡线
+ 161   3                  case 0x03: Cruising_Flag = 0x03; break;//避障
+ 162   3                  case 0x04: Cruising_Flag = 0x04; break;//雷达避障
+ 163   3                  case 0x00: 
+ 164   3                  {
+ 165   4                      
+ 166   4                      if(buffer[2] == 0x00)             //云台控制
+ 167   4                      {
+ 168   5                        IS_CON = 1;
+ 169   5                        UART_send("IS_CON1", strlen("IS_CON1")); 
+ 170   5                        break; //正常模式
+ 171   5                      }
+ 172   4                      else if(buffer[2] == 0x01)        //软串口初始 gokit控制
+ 173   4                      {
+ 174   5                        IS_CON = 0;
+ 175   5                        UART_send("IS_CON0", strlen("IS_CON0")); 
+ 176   5                        
+ 177   5                        TMOD &= 0x00;
+ 178   5                        AUXR &= 0X00;
+ 179   5                        IP &= 0x00; //定时器0中断优先级最高
+C51 COMPILER V9.00   UART                                                                  05/25/2015 23:46:14 PAGE 4   
 
- 178   3                      }
- 179   2                      else
- 180   2                      {
- 181   3                              if(SBUF==0xff)
- 182   3                              {       
- 183   4                                      rec_flag=0;     
- 184   4                                      if(i==3)
- 185   4                                      {
- 186   5                                              Communication_Decode(); 
- 187   5                                              UART_init(); // 解决串口死机问题
- 188   5                                      }
- 189   4                                      i=0;
- 190   4                              }
- 191   3                              else
- 192   3                              {
- 193   4                                      buffer[i]=SBUF;
- 194   4                                      i++;
- 195   4                              }
- 196   3                      }               
- 197   2          }
- 198   1          else
- 199   1          {
- 200   2              TI  =  0;
- 201   2          }
- 202   1                      
- 203   1      }
+ 180   5                        TR0 = 0;
+ 181   5                        ET0 = 0;
+ 182   5                        initiate_soft_uart();
+ 183   5                        break; //正常模式
+ 184   5                      }
+ 185   4                      else
+ 186   4                      ;
+ 187   4                      
+ 188   4                      Cruising_Flag = 0x00; 
+ 189   4                      
+ 190   4                      break; 
+ 191   4                  }
+ 192   3                  default:Cruising_Flag = 0x00; break;//正常模式
+ 193   3                      }
+ 194   2              }
+ 195   1              else
+ 196   1              {
+ 197   2                      return;
+ 198   2              }
+ 199   1      }
+ 200          
+ 201          void UART_Interrupt_Receive(void) interrupt 4
+ 202          {
+ 203   1              static uint8 i;
+ 204   1      
+ 205   1          if(RI==1)
+ 206   1          {
+ 207   2              RI  =   0;
+ 208   2              if(rec_flag==0)
+ 209   2                      {
+ 210   3                              if(SBUF==0xff)
+ 211   3                              {
+ 212   4                                      rec_flag=1;     
+ 213   4                                      i=0;
+ 214   4                              }                       
+ 215   3                      }
+ 216   2                      else
+ 217   2                      {
+ 218   3                              if(SBUF==0xff)
+ 219   3                              {       
+ 220   4                                      rec_flag=0;     
+ 221   4                                      if(i==3)
+ 222   4                                      {
+ 223   5                                              Communication_Decode(); 
+ 224   5                                              UART_init(); // 解决串口死机问题
+ 225   5                                      }
+ 226   4                                      i=0;
+ 227   4                              }
+ 228   3                              else
+ 229   3                              {
+ 230   4                                      buffer[i]=SBUF;
+ 231   4                                      i++;
+ 232   4                              }
+ 233   3                      }               
+ 234   2          }
+ 235   1          else
+ 236   1          {
+ 237   2              TI  =  0;
+ 238   2          }
+ 239   1                      
+ 240   1      }
+
+C51 COMPILER V9.00   UART                                                                  05/25/2015 23:46:14 PAGE 5   
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    701    ----
-   CONSTANT SIZE    =     38    ----
+   CODE SIZE        =    896    ----
+   CONSTANT SIZE    =    121    ----
    XDATA SIZE       =      3    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      2    ----
+   DATA SIZE        =      2       5
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =   ----    ----
+   BIT SIZE         =      1    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

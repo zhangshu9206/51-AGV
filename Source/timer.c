@@ -11,7 +11,6 @@ By WIFI机器人网·机器人创意工作室
 #include "Soft_uart.h"
 
 //uint8 rec_flag;
-//uint8 rec_flag;
 //uint16 Sampling_cnt;
 //bit IR_38K_En;
 //bit IR_R_T;

@@ -172,10 +172,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>18</ColumnNumber>
+      <ColumnNumber>15</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>14</CurrentLine>
+      <TopLine>13</TopLine>
+      <CurrentLine>18</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Source\main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
@@ -186,10 +186,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>37</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>205</TopLine>
-      <CurrentLine>212</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>15</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Source\motor.c</PathWithFileName>
       <FilenameWithoutPath>motor.c</FilenameWithoutPath>
@@ -202,8 +202,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>59</TopLine>
-      <CurrentLine>80</CurrentLine>
+      <TopLine>55</TopLine>
+      <CurrentLine>76</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Source\timer.c</PathWithFileName>
       <FilenameWithoutPath>timer.c</FilenameWithoutPath>
@@ -214,10 +214,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>54</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>44</TopLine>
-      <CurrentLine>51</CurrentLine>
+      <TopLine>11</TopLine>
+      <CurrentLine>11</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Source\uart.c</PathWithFileName>
       <FilenameWithoutPath>uart.c</FilenameWithoutPath>
@@ -225,20 +225,6 @@
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>5</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>32</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>88</TopLine>
-      <CurrentLine>92</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\Source\Soft_uart.c</PathWithFileName>
-      <FilenameWithoutPath>Soft_uart.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>6</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -252,7 +238,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>7</FileNumber>
+      <FileNumber>6</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -266,7 +252,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>8</FileNumber>
+      <FileNumber>7</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -280,7 +266,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>9</FileNumber>
+      <FileNumber>8</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -294,7 +280,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>10</FileNumber>
+      <FileNumber>9</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -308,7 +294,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>11</FileNumber>
+      <FileNumber>10</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -322,7 +308,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>11</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -336,7 +322,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>13</FileNumber>
+      <FileNumber>12</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -350,7 +336,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>14</FileNumber>
+      <FileNumber>13</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -364,7 +350,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>15</FileNumber>
+      <FileNumber>14</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -378,7 +364,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>16</FileNumber>
+      <FileNumber>15</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -392,7 +378,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <FileNumber>16</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -403,6 +389,20 @@
       <bDave2>0</bDave2>
       <PathWithFileName>.\Source\Soft_uart.h</PathWithFileName>
       <FilenameWithoutPath>Soft_uart.h</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>17</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>76</TopLine>
+      <CurrentLine>97</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\Source\Soft_uart.c</PathWithFileName>
+      <FilenameWithoutPath>Soft_uart.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -1799,10 +1799,16 @@
       <ActiveTab>3</ActiveTab>
       <Documents>
         <Doc>
-          <Name>SOURCE\TIMER.H</Name>
-          <ColumnNumber>6</ColumnNumber>
+          <Name>SOURCE\STEER.H</Name>
+          <ColumnNumber>28</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>18</CurrentLine>
+          <CurrentLine>14</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>SOURCE\TIMER.H</Name>
+          <ColumnNumber>35</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>19</CurrentLine>
         </Doc>
         <Doc>
           <Name>SOURCE\CONFIG.H</Name>
@@ -1811,40 +1817,46 @@
           <CurrentLine>19</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\Source\motor.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>205</TopLine>
-          <CurrentLine>212</CurrentLine>
+          <Name>.\Source\main.c</Name>
+          <ColumnNumber>15</ColumnNumber>
+          <TopLine>13</TopLine>
+          <CurrentLine>18</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\Source\main.c</Name>
-          <ColumnNumber>18</ColumnNumber>
+          <Name>.\Source\motor.c</Name>
+          <ColumnNumber>37</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>14</CurrentLine>
+          <CurrentLine>15</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Source\Soft_uart.c</Name>
-          <ColumnNumber>32</ColumnNumber>
-          <TopLine>88</TopLine>
-          <CurrentLine>92</CurrentLine>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>76</TopLine>
+          <CurrentLine>97</CurrentLine>
         </Doc>
         <Doc>
           <Name>SOURCE\SOFT_UART.H</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>123</TopLine>
-          <CurrentLine>139</CurrentLine>
+          <TopLine>58</TopLine>
+          <CurrentLine>58</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Source\timer.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>59</TopLine>
-          <CurrentLine>80</CurrentLine>
+          <TopLine>55</TopLine>
+          <CurrentLine>76</CurrentLine>
         </Doc>
         <Doc>
           <Name>SOURCE\MOTOR.H</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>16</TopLine>
-          <CurrentLine>25</CurrentLine>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\Source\uart.c</Name>
+          <ColumnNumber>54</ColumnNumber>
+          <TopLine>11</TopLine>
+          <CurrentLine>11</CurrentLine>
         </Doc>
         <Doc>
           <Name>SOURCE\UART.H</Name>
@@ -1871,12 +1883,6 @@
           <CurrentLine>6</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\Source\uart.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>44</TopLine>
-          <CurrentLine>51</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>SOURCE\MEM.H</Name>
           <ColumnNumber>38</ColumnNumber>
           <TopLine>1</TopLine>
@@ -1887,12 +1893,6 @@
           <ColumnNumber>24</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>14</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>SOURCE\STEER.H</Name>
-          <ColumnNumber>27</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>13</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

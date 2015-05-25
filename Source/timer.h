@@ -10,7 +10,7 @@ By WIFI机器人网·机器人创意工作室
 #include "config.h"
 #include "type.h"
 
-extern uint8 rec_flag;
+//extern uint8 rec_flag;
 extern uint8 rec_flag;
 extern uint16 Sampling_cnt;
 extern bit IR_38K_En;

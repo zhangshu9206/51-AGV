@@ -367,11 +367,6 @@
               <FilePath>.\Source\uart.c</FilePath>
             </File>
             <File>
-              <FileName>Soft_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Source\Soft_uart.c</FilePath>
-            </File>
-            <File>
               <FileName>config.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\config.h</FilePath>
@@ -430,6 +425,11 @@
               <FileName>Soft_uart.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Source\Soft_uart.h</FilePath>
+            </File>
+            <File>
+              <FileName>Soft_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Source\Soft_uart.c</FilePath>
             </File>
           </Files>
         </Group>

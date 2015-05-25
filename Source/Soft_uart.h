@@ -128,11 +128,14 @@ sfr16	DPTR = 0x82;
  
 #define BufLong 32    //FIFO³¤¶È 
 
+extern INT8U xdata Tbuf1[BufLong]; 
+
 void Recv(void);
 void Send(void);
 void soft_rs232_interrupt( void );
 void soft_receive_init();
-extern void rs_send_byte(INT8U SendByte);
+void rs_send_byte(INT8U SendByte);
+extern void rs_UART_send(uint8 * Buffer);
 void soft_rs232_init(void);
 extern void initiate_soft_uart (void);
 void rs_Communication_Decode(void); 

@@ -9,7 +9,7 @@
 
 INT8U xdata Rbuf1[BufLong]; //FIFO接收区
 INT8U Rptr1,Rnum1;
-INT8U xdata Tbuf1[BufLong];//FIFO发送区
+INT8U xdata Tbuf1[BufLong]; //FIFO发送区
 INT8U Tptr1,Tnum1;
 signed char TimCnt1A,TimCnt1B; 
 INT8U Mtbuf1,Mrbuf1,TxdCnt1,RxdCnt1;
@@ -90,6 +90,7 @@ void Send(void)
  
 }
 
+/*选择性使用定时器0 （红外舵机/软串口）*/
 #ifdef TIMER_0
 void Timer_0(void) interrupt 1 using 3
 {
@@ -174,6 +175,18 @@ void rs_send_byte(INT8U SendByte)      //发送一个字节
 	if(++Tnum1>BufLong) Tnum1=BufLong;	//FIFO队列已满，不再允许数据添加
 }
 
+void rs_UART_send(uint8 * Buffer)
+{
+    uint16 Length;
+    Length = strlen(Buffer); 
+    while(Length != 0)
+    {
+        rs_send_byte(*Buffer); 
+        Buffer++;
+        Length--;
+    }
+}
+
 void rs_Communication_Decode(void)
 {
     if(rs_buffer[0] == '0') 
@@ -222,7 +235,7 @@ INT8U rs_receive_byte(void)      //接收一个字节  先调用soft_receive_enable()
     UART_send("outputByte:", strlen("outputByte:"));  
     UART_send(&outputByte, strlen(&outputByte)); 
 */
-    //Arduino端信息解析
+    //51端信息解析
     if(rs_rec_flag == 0) 
     {
         if(outputByte == 'F') 

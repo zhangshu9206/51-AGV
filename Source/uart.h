@@ -13,7 +13,7 @@ By WIFI机器人网·机器人创意工作室
 extern bit IS_CON;
 extern void UART_init(void);  // 初始化串口
 extern void UART_send_byte(uint8 byte); // 串口发送字节数据
-extern void UART_send(uint8 *Buffer, uint8 Length); // 串口发送数组数据
+extern void UART_send(uint8 * Buffer, uint16 Length); // 串口发送数组数据
 
 
 #endif
